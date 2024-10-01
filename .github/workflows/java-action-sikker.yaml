@@ -34,6 +34,5 @@ jobs:
             maven-${{ runner.os }}-
 
       - name: Run tests
-        working-directory: ./charger-service
         run: ./mvnw test
 
