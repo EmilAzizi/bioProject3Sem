@@ -10,8 +10,6 @@ import com.example.bioproject.repository.BioRepository;
 public class BioProjectApplication {
 
     public static void main(String[] args) {
-        BioRepository bioRepository = new BioRepository();
-        System.out.println(bioRepository.movieCreator());
-     //   SpringApplication.run(BioProjectApplication.class, args);
+        SpringApplication.run(BioProjectApplication.class, args);
     }
 }

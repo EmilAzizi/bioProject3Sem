@@ -1,21 +1,31 @@
 package com.example.bioproject.model;
 
 public class Movie {
+    private String name;
     private String description;
     private boolean isOldEnough;
     private String actorFullName;
+    private String genre;
+    private int duration;
     private String date;
     private int runtime;
 
-    public Movie(String description, boolean isOldEnough, String actorFullName, String date, int runtime) {
-        this.description = description;
-        this.isOldEnough = isOldEnough;
-        this.actorFullName = actorFullName;
-        this.date = date;
-        this.runtime = runtime;
+    public Movie(String name, String genre, int duration) {
+        this.name = name;
+        this.genre = genre;
+        this.duration = duration;
     }
 
-    public Movie() {
+    public String getName() {
+        return name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     public String getDescription() {
