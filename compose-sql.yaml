@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: bio3sem3
+    restart: unless-stopped
+    build: .
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: bio
+    ports: 
+      - "3306:3306"
+    volumes:
+      - mysql:C:/Users/Oskar/Documents/'3. Semester'/mySQLdata/bio3sem
+    
