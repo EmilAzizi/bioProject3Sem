@@ -7,7 +7,7 @@ public class Movie {
     private String date;
     private int runtime;
 
-    private Movie(String description, boolean isOldEnough, String actorFullName, String date, int runtime) {
+    public Movie(String description, boolean isOldEnough, String actorFullName, String date, int runtime) {
         this.description = description;
         this.isOldEnough = isOldEnough;
         this.actorFullName = actorFullName;
@@ -18,7 +18,7 @@ public class Movie {
     public Movie() {
     }
 
-    public String getDescriptio() {
+    public String getDescription() {
         return description;
     }
 
@@ -57,5 +57,13 @@ public class Movie {
     public void setRuntime(int runtime) {
         this.runtime = runtime;
     }
+
+    @Override
+    public String toString() {
+        return "Movie [description=" + description + ", isOldEnough=" + isOldEnough + ", actorFullName=" + actorFullName
+                + ", date=" + date + ", runtime=" + runtime + "]";
+    }
+
+    
 
 }
