@@ -1,24 +1,35 @@
 package com.example.bioproject.controller;
 
-@Controller
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.bioproject.model.MovieModel;
+impor
+
+    troller
 @RequestMapping("")
 public class MovieController {
+
     private final MovieService movieService;
 
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
-    }   
+    }
 
     @GetMapping("/show movie html")
     public String showMovies(Model model) {
-            model.addAttribute("movieList", movieService.showMovies)
+        model.addAttribute("movieList", movieService.showMovies());
 
-            return "movie html"
+        return "movie-html";
     }
 
     @PostMapping("/create movie html")
     public String createMovie(@ModelAttribute("movieName") MovieModel movieModel) {
         movieService.createMovie(movieModel);
+        return "redirect:/show-movie-html";
     }
-
+    
 }
