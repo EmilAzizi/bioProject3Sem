@@ -39,20 +39,29 @@
             background-color: #2980b9;
         }
 
+        #movies-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 film per række */
+            gap: 20px; /* Mellemrum mellem film */
+            padding: 0;
+            width: 80%;
+            max-width: 1200px;
+        }
+
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
 
         li {
             background-color: #fff;
-            margin: 10px 0;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             transition: transform 0.2s;
         }
 
@@ -60,10 +69,21 @@
             transform: scale(1.05);
         }
 
-        li span {
+        li .movie-title {
             font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
         }
 
+        li .movie-genre {
+            font-style: italic;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        li .movie-duration {
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -84,7 +104,11 @@
                 const moviesList = document.getElementById('movies-list');
                 movies.forEach(movie => {
                     const movieItem = document.createElement('li');
-                    movieItem.innerHTML = `<span>${movie.name}</span> (${movie.genre}) - ${movie.duration} mins`;
+                    movieItem.innerHTML = `
+                        <div class="movie-title">${movie.name}</div>
+                        <div class="movie-genre">${movie.genre}</div>
+                        <div class="movie-duration">${movie.duration} mins</div>
+                    `;
                     moviesList.appendChild(movieItem);
                 });
             })

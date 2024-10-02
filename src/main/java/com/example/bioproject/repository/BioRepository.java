@@ -15,7 +15,9 @@ public class BioRepository {
 
     public List<Movie> getMovieList() {
         Movie newMovie = new Movie("Inception", "Sci-Fi", 12);
+        Movie newMovieOne = new Movie("Titanic", "Romans", 200);
         movieList.add(newMovie);
+        movieList.add(newMovieOne);
         return movieList;
     }
 
