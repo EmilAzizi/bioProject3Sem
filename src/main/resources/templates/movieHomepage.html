@@ -5,6 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinema Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 20px;
+            color: #444;
+            font-size: 2.5rem;
+        }
+
+        #createMovieBtn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        #createMovieBtn:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+        }
+
+        li span {
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -12,30 +72,29 @@
     <h1>Now Showing</h1>
     <button id="createMovieBtn">Create Movie</button>
 
+    <ul id="movies-list">
+        <!-- Movies will be displayed here -->
+    </ul>
+
     <script>
         // Fetch movies from the Java backend API
         fetch('/api/cinema/movies')
             .then(response => response.json())
             .then(movies => {
                 const moviesList = document.getElementById('movies-list');
-                movies.forEach(movie => {  // change 'movies' to 'movie'
+                movies.forEach(movie => {
                     const movieItem = document.createElement('li');
-                    movieItem.innerHTML = `${movie.name} (${movie.genre}) - ${movie.duration} mins`;
+                    movieItem.innerHTML = `<span>${movie.name}</span> (${movie.genre}) - ${movie.duration} mins`;
                     moviesList.appendChild(movieItem);
                 });
             })
             .catch(error => console.error('Error fetching movies:', error));
 
+        // Event listener for the 'Create Movie' button
         document.getElementById('createMovieBtn').addEventListener('click', function () {
             window.location.href = 'movieForm';
         });
-
     </script>
-
-
-    <ul id="movies-list">
-        <!-- Movies will be displayed here -->
-    </ul>
 
 </body>
 
