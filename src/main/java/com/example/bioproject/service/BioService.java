@@ -7,7 +7,7 @@ import java.util.*;
 
 @Service
 public class BioService {
-    BioRepository bioRepository;
+    BioRepository bioRepository = new BioRepository();
 
     public List<Movie> getMovieListFromRepository(){
         return bioRepository.getMovieList();

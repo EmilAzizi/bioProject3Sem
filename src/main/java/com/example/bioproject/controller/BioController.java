@@ -12,7 +12,7 @@ import com.example.bioproject.service.BioService;
 
 @RestController
 public class BioController {
-    BioService bioService;
+    BioService bioService = new BioService();
 
     @GetMapping("/api/cinema/movies")
     public List<Movie> parseMovieToJson(){
