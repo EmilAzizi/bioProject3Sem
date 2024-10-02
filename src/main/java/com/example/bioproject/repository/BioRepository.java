@@ -8,14 +8,16 @@ import org.springframework.stereotype.Repository;
 public class BioRepository {
     private List<Movie> movieList;
 
-    public List<Movie> movieCreator(){
+    public BioRepository(){
         movieList = new ArrayList<>();
-        Movie movie = new Movie("en god film", true, "mark jessing", "i dag", 120);
+    }
 
-        movieList.add(movie);
-        movieList.add(movie1);
-        movieList.add(movie2);
-    
+    public List<Movie> getMovieList(){
         return movieList;
+    }
+
+    public void createMovie(String name, int duration, String genre){
+        Movie newMovie = new Movie(name, genre, duration);
+        movieList.add(newMovie);
     }
 }

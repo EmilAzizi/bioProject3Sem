@@ -9,7 +9,7 @@ import java.util.*;
 public class BioService {
     BioRepository bioRepository;
 
-    public List<Movie> movieCreator(){
-        return bioRepository.movieCreator();
+    public List<Movie> getMovieListFromRepository(){
+        return bioRepository.getMovieList();
     }
 }

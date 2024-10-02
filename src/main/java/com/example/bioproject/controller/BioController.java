@@ -15,9 +15,8 @@ public class BioController {
     BioService bioService;
 
     @GetMapping("/api/cinema/movies")
-    public List<Movie> getMovies() {
-        List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie("Inception", "science Fiction", 148));
-        return movies;
+    public List<Movie> parseMovieToJson(){
+        List<Movie> movieList = bioService.getMovieListFromRepository();
+        return movieList;
     }
 }
