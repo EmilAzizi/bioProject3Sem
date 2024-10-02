@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.example.bioproject.model.MovieModel;
 
@@ -25,6 +26,8 @@ public class MovieRepository_HC {
 
     public ArrayList<MovieModel> showMovies() {
         return movieList;
+
+    }
         
 
     public void createMovie(MovieModel movieModel) { 
@@ -52,9 +55,8 @@ public class MovieRepository_HC {
 
         if (removeMovie != null) {
             movieList.remove(removeMovie);
-     
+        }
 
-
-
-    
+        return removeMovie;
+    }
 }
