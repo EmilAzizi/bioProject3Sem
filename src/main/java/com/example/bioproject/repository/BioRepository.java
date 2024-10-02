@@ -25,4 +25,30 @@ public class BioRepository {
         Movie newMovie = new Movie(name, genre, duration);
         movieList.add(newMovie);
     }
+
+    public Movie deleteMovie(String name) {
+        Movie removeMovie = null;
+
+        for (Movie movie : movieList) {
+            if (movie.getName() == movie.getName())
+                removeMovie = movie;
+        }
+
+        if (removeMovie != null) {
+            movieList.remove(removeMovie);
+        }
+
+        return removeMovie;
+    }
+
+    public void updateMovie(Movie Movie) {
+        int index = 0;
+        for (int i = 0; i < movieList.size(); i++) {
+            if (movieList.get(i).getName() == Movie.getName())
+                index = i;
+        }
+
+        movieList.set(index, Movie);
+    }
+
 }

@@ -68,12 +68,22 @@ public class Movie {
         this.runtime = runtime;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         return "Movie [description=" + description + ", isOldEnough=" + isOldEnough + ", actorFullName=" + actorFullName
                 + ", date=" + date + ", runtime=" + runtime + "]";
     }
-
-    
 
 }
