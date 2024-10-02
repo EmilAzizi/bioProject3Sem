@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.bioproject.model.MovieModel;
-impor
+import com.example.bioproject.service.MovieService;
 
-    troller
+@Controller
 @RequestMapping("")
 public class MovieController {
 
