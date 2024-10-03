@@ -28,7 +28,6 @@ public class MovieController {
 
     @PostMapping("/create movie html")
     public String createMovie(@ModelAttribute("movieName") MovieModel movieModel) {
-        movieService.createMovie(movieModel);
         return "redirect:/show-movie-html";
     }
     

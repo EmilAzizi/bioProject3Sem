@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import com.example.bioproject.model.MovieModel;
 
-@Repository
+
 public class MovieRepository_HC {
     private int movieID;
 
