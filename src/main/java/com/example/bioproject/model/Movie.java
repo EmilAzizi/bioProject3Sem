@@ -9,11 +9,21 @@ public class Movie {
     private int duration;
     private String date;
     private int runtime;
+    private int ID;
 
     public Movie(String name, String genre, int duration) {
         this.name = name;
         this.genre = genre;
         this.duration = duration;
+        this.ID = 0;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getName() {
@@ -68,12 +78,21 @@ public class Movie {
         this.runtime = runtime;
     }
 
-    @Override
-    public String toString() {
-        return "Movie [description=" + description + ", isOldEnough=" + isOldEnough + ", actorFullName=" + actorFullName
-                + ", date=" + date + ", runtime=" + runtime + "]";
+    public void setName(String name) {
+        this.name = name;
     }
 
-    
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + ID;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.bioproject;
 
+import com.example.bioproject.controller.HomeController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
