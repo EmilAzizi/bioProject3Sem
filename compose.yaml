@@ -1,13 +1,27 @@
 services:
-  mysql:
-    image: mysql:latest
-    container_name: bio3sem3
-    restart: unless-stopped
-    build: .
+  # mysql:
+  #   image: mysql:8.0
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 1234
+  #     MYSQL_DATABASE: bio
+  #   ports: 
+  #     - "3306:3306"
+  #   volumes:
+  #     - C:/Users/Oskar/Documents/'3. Semester'/mySQLdata/bio3sem
+
+
+  db:
+    image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: bio
-    ports: 
-      - "3306:3306"
+      MYSQL_ROOT_PASSWORD: kea
+      MYSQL_DATABASE: kea
+      MYSQL_USER: kea
+      MYSQL_PASSWORD: kea
+      MYSQL_HOST: db
     volumes:
-      - C:/Users/Oskar/Documents/'3. Semester'/mySQLdata/bio3sem
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+ 
+volumes:
+  db_data:
