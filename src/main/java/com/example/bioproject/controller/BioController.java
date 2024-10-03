@@ -4,9 +4,7 @@ import java.util.*;
 import com.example.bioproject.model.Movie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.bioproject.service.BioService;
 
@@ -18,5 +16,18 @@ public class BioController {
     public List<Movie> parseMovieToJson(){
         List<Movie> movieList = bioService.getMovieListFromRepository();
         return movieList;
+    }
+
+    @PostMapping("/api/cinema/movies")
+    public Movie createMovie(@RequestBody Movie newMovie){
+        bioService.createMovie(newMovie);
+        bioService.setMovieID();
+        return newMovie;
+    }
+
+    @GetMapping("/api/cinema/movies/{ID}")
+    public Movie getMovieByID(@PathVariable int ID){
+        Movie movieFound = bioService.findMovieByID(ID);
+        return movieFound;
     }
 }

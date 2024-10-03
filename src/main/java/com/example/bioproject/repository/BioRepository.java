@@ -14,17 +14,30 @@ public class BioRepository {
     }
 
     public List<Movie> getMovieList() {
-        Movie newMovie = new Movie("Inception", "Sci-Fi", 12);
-        Movie newMovieOne = new Movie("Titanic", "Romans", 200);
-        movieList.add(newMovie);
-        movieList.add(newMovieOne);
         return movieList;
     }
 
-    public void createMovie(String name, int duration, String genre) {
-        Movie newMovie = new Movie(name, genre, duration);
+    public void createMovie(Movie newMovie) {
         movieList.add(newMovie);
     }
+
+    public void setIDForMovie(){
+        int ID = 0;
+        for(Movie movie : movieList){
+            movie.setID(ID);
+            ID++;
+        }
+    }
+
+    public Movie getMovieByID(int ID) {
+        for (Movie movie : movieList) {
+            if (movie.getID() == ID) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
 
     public Movie deleteMovie(String name) {
         Movie removeMovie = null;

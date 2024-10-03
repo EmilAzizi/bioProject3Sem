@@ -4,11 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create Movie</title>
 </head>
 
 <body>
-    <h1>Hej</h1>
+<h1>Create a New Movie</h1>
+
+<!-- Movie Form -->
+<form id="movie-form">
+    <label for="name">Movie Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="genre">Genre:</label>
+    <input type="text" id="genre" name="genre" required><br><br>
+
+    <label for="duration">Duration (minutes):</label>
+    <input type="number" id="duration" name="duration" required><br><br>
+
+    <!-- Submit Button -->
+    <button type="submit">Create Movie</button>
+</form>
+
+<script>
+    // JavaScript to handle form submission
+    document.getElementById('movie-form').addEventListener('submit', function (e) {
+        e.preventDefault();  // Prevent traditional form submission
+
+        // Create movie object from the form inputs
+        const movie = {
+            name: document.getElementById('name').value,
+            genre: document.getElementById('genre').value,
+            duration: document.getElementById('duration').value
+        };
+
+        // Send the movie object to the backend using a POST request
+        fetch('/api/cinema/movies', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(movie)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Movie created:', data);
+                // Redirect to homepage after movie creation
+                window.location.href = '/homepage';
+            })
+            .catch(error => console.error('Error creating movie:', error));
+    });
+</script>
+
 </body>
 
 </html>

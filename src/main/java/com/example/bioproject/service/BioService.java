@@ -12,4 +12,17 @@ public class BioService {
     public List<Movie> getMovieListFromRepository(){
         return bioRepository.getMovieList();
     }
+
+    public void createMovie(Movie newMovie){
+        bioRepository.createMovie(newMovie);
+    }
+
+    public Movie findMovieByID(int ID){
+        Movie movieToBeFound = bioRepository.getMovieByID(ID);
+        return movieToBeFound;
+    }
+
+    public void setMovieID(){
+        bioRepository.setIDForMovie();
+    }
 }
