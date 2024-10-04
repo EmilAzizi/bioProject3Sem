@@ -18,6 +18,14 @@ public class Movie {
         this.ID = 0;
     }
 
+    public Movie(String name, int duration) {
+        this.name = name;
+        this.duration = duration;
+        this.ID = 0;
+    }
+
+
+
     public int getID() {
         return ID;
     }
