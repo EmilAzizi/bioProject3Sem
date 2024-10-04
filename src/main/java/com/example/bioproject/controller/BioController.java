@@ -30,4 +30,15 @@ public class BioController {
         Movie movieFound = bioService.findMovieByID(ID);
         return movieFound;
     }
+
+    @DeleteMapping("/api/cinema/movies/{ID}")
+    public void deleteMovie(@PathVariable int ID){
+        bioService.deleteMovieFromRepository(ID);
+    }
+
+    @PutMapping("/api/cinema/movies/{ID}")
+    public Movie updateMovie(@PathVariable int ID, @RequestBody Movie movieToBeUpdated){
+        bioService.updateMovie(ID, movieToBeUpdated);
+        return movieToBeUpdated;
+    }
 }
