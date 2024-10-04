@@ -4,6 +4,7 @@ import com.example.bioproject.model.Movie;
 import com.example.bioproject.service.BioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
@@ -21,5 +22,10 @@ public class HomeController {
     @GetMapping("/movieDetails")
     public String movieDetails(){
         return "movieDetails";
+    }
+
+    @GetMapping("/editMovie/{ID}")
+    public String editMovie(@PathVariable int ID){
+        return "editMovie";
     }
 }

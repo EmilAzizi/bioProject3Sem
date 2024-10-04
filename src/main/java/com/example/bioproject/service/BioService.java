@@ -25,4 +25,12 @@ public class BioService {
     public void setMovieID(){
         bioRepository.setIDForMovie();
     }
+
+    public void deleteMovieFromRepository(int ID){
+        bioRepository.deleteMovie(ID);
+    }
+
+    public void updateMovie(int id, Movie updatedMovie) {
+        bioRepository.updateMovie(id, updatedMovie);
+    }
 }

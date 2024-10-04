@@ -22,7 +22,7 @@ public class BioRepository {
     }
 
     public void setIDForMovie(){
-        int ID = 0;
+        int ID = 1;
         for(Movie movie : movieList){
             movie.setID(ID);
             ID++;
@@ -39,29 +39,38 @@ public class BioRepository {
     }
 
 
-    public Movie deleteMovie(String name) {
+    public void deleteMovie(int ID) {
         Movie removeMovie = null;
 
         for (Movie movie : movieList) {
-            if (movie.getName() == movie.getName())
+            if (movie.getID() == ID) {
                 removeMovie = movie;
+                break;
+            }
         }
 
         if (removeMovie != null) {
             movieList.remove(removeMovie);
         }
-
-        return removeMovie;
+        setIDForMovie();
     }
 
-    public void updateMovie(Movie Movie) {
-        int index = 0;
-        for (int i = 0; i < movieList.size(); i++) {
-            if (movieList.get(i).getName() == Movie.getName())
-                index = i;
+    public void updateMovie(int id, Movie updatedMovie) {
+        for (Movie movie : movieList) {
+            if (movie.getID() == id) {
+                // Update the movie details
+//                movie.setName(updatedMovie.getName());
+//                movie.setGenre(updatedMovie.getGenre());
+                movie.setName(updatedMovie.getName());
+                movie.setDuration(updatedMovie.getDuration());
+                movie.setGenre(updatedMovie.getGenre());
+//                movie.setDescription(updatedMovie.getDescription());
+//                movie.setActorFullName(updatedMovie.getActorFullName());
+//                movie.setDate(updatedMovie.getDate());
+//                movie.setRuntime(updatedMovie.getRunTime());
+//                movie.setOldEnough(updatedMovie.getIsOldEnough());
+                break;
+            }
         }
-
-        movieList.set(index, Movie);
     }
-
 }
