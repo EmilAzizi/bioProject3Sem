@@ -1,15 +1,4 @@
 services:
-  # mysql:
-  #   image: mysql:8.0
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: 1234
-  #     MYSQL_DATABASE: bio
-  #   ports: 
-  #     - "3306:3306"
-  #   volumes:
-  #     - C:/Users/Oskar/Documents/'3. Semester'/mySQLdata/bio3sem
-
-
   db:
     image: mariadb:latest
     environment:
