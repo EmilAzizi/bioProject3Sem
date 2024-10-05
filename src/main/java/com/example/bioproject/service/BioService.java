@@ -15,7 +15,7 @@ public class BioService {
     }
 
     public void createMovie(Movie newMovie){
-        bioRepository.createMovie(newMovie);
+        //bioRepository.createMovie(newMovie);
     }
 
     public Movie findMovieByID(int ID){
