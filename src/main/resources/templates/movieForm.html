@@ -18,6 +18,21 @@
     <label for="genre">Genre:</label>
     <input type="text" id="genre" name="genre" required><br><br>
 
+    <label for="actorFullName">Name of the actor:</label>
+    <input type="text" id="actorFullName" name="actorFullName" required><br><br>
+
+    <label for="movieDescription">Movies description:</label>
+    <input type="text" id="movieDescription" name="movieDescription" required><br><br>
+
+    <label for="movieAgeReq">Movies age requirement:</label>
+    <input type="number" id="movieAgeReq" name="movieAgeReq" required><br><br>
+
+    <label for="movieStartDate">Start date:</label>
+    <input type="text" id="movieStartDate" name="movieStartDate" required><br><br>
+
+    <label for="movieEndDate">End date:</label>
+    <input type="text" id="movieEndDate" name="movieEndDate" required><br><br>
+
     <label for="duration">Duration (minutes):</label>
     <input type="number" id="duration" name="duration" required><br><br>
 
@@ -34,6 +49,11 @@
         const movie = {
             name: document.getElementById('name').value,
             genre: document.getElementById('genre').value,
+            actorFullName: document.getElementById('actorFullName').value,
+            description: document.getElementById('movieDescription').value,
+            ageRequirement: document.getElementById('movieAgeReq').value,
+            startDate: document.getElementById('movieStartDate').value,
+            endDate: document.getElementById('movieEndDate').value,
             duration: document.getElementById('duration').value
         };
 
