@@ -19,8 +19,8 @@ public class HomeController {
         return "movieForm";
     }
 
-    @GetMapping("/movieDetails")
-    public String movieDetails(){
+    @GetMapping("/movieDetails/{ID}")
+    public String movieDetails(@PathVariable int ID){
         return "movieDetails";
     }
 
