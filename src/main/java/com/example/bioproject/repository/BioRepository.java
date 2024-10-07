@@ -144,7 +144,7 @@ public class BioRepository {
                 movie.setStartDate(updatedMovie.getStartDate());
                 movie.setEndDate(updatedMovie.getEndDate());
                 movie.setDuration(updatedMovie.getDuration());
-                movie = movieToUpdate;
+                movieToUpdate = updatedMovie;
                 break;
             }
         }

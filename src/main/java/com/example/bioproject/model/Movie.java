@@ -102,7 +102,16 @@ public class Movie {
 
     @Override
     public String toString() {
-        return name + " " + ID;
+        return "Movie{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ageRequirement=" + ageRequirement +
+                ", actorFullName='" + actorFullName + '\'' +
+                ", genre='" + genre + '\'' +
+                ", duration=" + duration +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", ID=" + ID +
+                '}';
     }
-
 }

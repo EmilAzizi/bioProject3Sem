@@ -38,6 +38,7 @@ public class BioController {
     @PutMapping("/api/cinema/movies/{ID}")
     public Movie updateMovie(@PathVariable int ID, @RequestBody Movie movieToBeUpdated){
         bioService.updateMovie(ID, movieToBeUpdated);
+        System.out.println(movieToBeUpdated.toString());
         return movieToBeUpdated;
     }
 }
