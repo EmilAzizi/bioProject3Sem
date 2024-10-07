@@ -12,6 +12,18 @@ CREATE TABLE IF NOT EXISTS movie (
     movieLength INT
     );
 
+CREATE TABLE IF NOT EXISTS screen1 (
+    screenID INT AUTO_INCREMENT PRIMARY KEY,
+    screenSeatingAmount INT,
+    screenSeatsRemaining INT
+    );
+
+CREATE TABLE IF NOT EXISTS screen2 (
+    screenID INT AUTO_INCREMENT PRIMARY KEY,
+    screenSeatingAmount INT,
+    screenSeatsRemaining INT
+    );
+
 INSERT INTO movie (movieName, movieActors, movieDescription, movieAgeRes, movieStartDate, movieEndDate, movieLength)
 VALUES
     ('Inception', 'Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.', true, '2010-07-16', '2020-07-16', 148),
