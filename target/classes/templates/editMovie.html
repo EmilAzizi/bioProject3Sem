@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Movie</title>
-    <link rel="stylesheet" href="editMovie">
+    <link rel="stylesheet" href="editMovie.css">
 </head>
 
 <body>
@@ -22,6 +22,9 @@
         <label for="duration">Duration (minutes):</label>
         <input type="number" id="duration" name="duration" required><br><br>
 
+        <label for="ageRequirement">Age requirememt:</label>
+        <input type="number" id="ageRequirement" name="ageRequirement" required><br><br>
+
         <!-- Confirm Button -->
         <button type="submit">Confirm</button>
     </form>
@@ -36,6 +39,7 @@
                 document.getElementById('name').value = movie.name;
                 document.getElementById('genre').value = movie.genre;
                 document.getElementById('duration').value = movie.duration;
+                document.getElementById('ageRequirement').value = movie.ageRequirement;
             })
             .catch(error => console.error('Error fetching movie details:', error));
 
@@ -45,7 +49,8 @@
             const updatedMovie = {
                 name: document.getElementById('name').value,
                 genre: document.getElementById('genre').value,
-                duration: document.getElementById('duration').value
+                duration: document.getElementById('duration').value,
+                ageRequirement: document.getElementById('ageRequirement').value
             };
 
             fetch(`/api/cinema/movies/${movieId}`, {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Details</title>
-    <link rel="stylesheet" href="moveDetails.css">
+    <link rel="stylesheet" href="movieDetails.css">
 </head>
 
 
@@ -37,6 +37,7 @@
             <p><strong>Genre:</strong> ${movie.genre}</p>
             <p><strong>Duration:</strong> ${movie.duration} mins</p>
             <p><strong>Description:</strong> ${movie.description || 'No description available.'}</p>
+            <p><strong>Age requirement:</strong> ${movie.ageRequirement}</p>
         `;
             })
             .catch(error => console.error('Error fetching movie details:', error));

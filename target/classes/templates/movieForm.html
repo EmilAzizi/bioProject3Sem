@@ -22,6 +22,9 @@
         <label for="duration">Duration (minutes):</label>
         <input type="number" id="duration" name="duration" required><br><br>
 
+        <label for="ageRequirement">Age requirememt:</label>
+        <input type="number" id="ageRequirement" name="ageRequirement" required><br><br>
+
         <!-- Submit Button -->
         <button type="submit">Create Movie</button>
     </form>
@@ -35,7 +38,8 @@
             const movie = {
                 name: document.getElementById('name').value,
                 genre: document.getElementById('genre').value,
-                duration: document.getElementById('duration').value
+                duration: document.getElementById('duration').value,
+                ageRequirement: document.getElementById('ageRequirement').value
             };
 
             // Send the movie object to the backend using a POST request
