@@ -136,6 +136,7 @@ public class BioRepository {
 
         for (Movie movie : movieList) {
             if (movie.getID() == id) {
+                movie.setID(id);
                 movie.setName(updatedMovie.getName());
                 movie.setGenre(updatedMovie.getGenre());
                 movie.setActorFullName(updatedMovie.getActorFullName());
@@ -144,24 +145,18 @@ public class BioRepository {
                 movie.setStartDate(updatedMovie.getStartDate());
                 movie.setEndDate(updatedMovie.getEndDate());
                 movie.setDuration(updatedMovie.getDuration());
-                movieToUpdate = updatedMovie;
+                movieToUpdate = movie;
                 break;
             }
         }
 
-        if(!movieToUpdate.equals(null)){
-            movieToUpdate.setName(updatedMovie.getName());
-            movieToUpdate.setGenre(updatedMovie.getGenre());
-            movieToUpdate.setActorFullName(updatedMovie.getActorFullName());
-            movieToUpdate.setDescription(updatedMovie.getDescription());
-            movieToUpdate.setAgeRequirement(updatedMovie.getAgeRequirement());
-            movieToUpdate.setStartDate(updatedMovie.getStartDate());
-            movieToUpdate.setEndDate(updatedMovie.getEndDate());
-            movieToUpdate.setDuration(updatedMovie.getDuration());
-
-            try(Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)){
-                PreparedStatement ps = con.prepareStatement("UPDATE movie SET movieName = ?, movieGenre = ?, movieActors = ?, movieDescription = ?, " +
-                        "movieAgeRes = ?, movieStartDate = ?, movieEndDate = ?, movieLength = ? WHERE movieID = ?");
+        if (movieToUpdate != null) {
+            // Database operation for updating
+            try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+                PreparedStatement ps = con.prepareStatement(
+                        "UPDATE movie SET movieName = ?, movieGenre = ?, movieActors = ?, movieDescription = ?, " +
+                                "movieAgeRes = ?, movieStartDate = ?, movieEndDate = ?, movieLength = ? WHERE movieID = ?"
+                );
                 ps.setString(1, movieToUpdate.getName());
                 ps.setString(2, movieToUpdate.getGenre());
                 ps.setString(3, movieToUpdate.getActorFullName());
@@ -177,5 +172,6 @@ public class BioRepository {
                 throw new RuntimeException(e);
             }
         }
+
     }
 }
