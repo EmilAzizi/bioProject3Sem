@@ -5,44 +5,67 @@ import java.util.Date;
 public class Movie {
     private String name;
     private String description;
-    private int ageRestrction;
+    private int ageRequirement;
     private String actorFullName;
     private String genre;
     private int duration;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private int ID;
 
     public Movie (){
     }
 
-    public Movie (String name, String genre,String actorFullName, String description, int ageRestrction, Date startDate, Date endDate, int duration){
+    public Movie (int ID, String name, String genre, String actorFullName, String description, int ageRequirement, String startDate, String endDate, int duration){
+        this.ID = ID;
         this.name = name;
         this.genre = genre;
         this.actorFullName = actorFullName;
         this.description = description;
-        this.ageRestrction = ageRestrction;
+        this.ageRequirement = ageRequirement;
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
     }
 
-    public Movie(String name, String genre, int duration) {
-        this.name = name;
-        this.genre = genre;
-        this.duration = duration;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Date getEndDate() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate){
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public void setAgeRestrction(int ageRestrction){
-        this.ageRestrction = ageRestrction;
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public int getAgeRequirement() {
+        return ageRequirement;
+    }
+
+    public void setAgeRequirement(int ageRequirement) {
+        this.ageRequirement = ageRequirement;
+    }
+
+    public String getActorFullName() {
+        return actorFullName;
+    }
+
+    public void setActorFullName(String actorFullName) {
+        this.actorFullName = actorFullName;
     }
 
     public int getID() {
@@ -63,38 +86,6 @@ public class Movie {
 
     public int getDuration() {
         return duration;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getAgeRestrction() {
-        return ageRestrction;
-    }
-
-    public String getActorFullName() {
-        return actorFullName;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setOldEnough(int isOldEnough) {
-        this.ageRestrction = isOldEnough;
-    }
-
-    public void setActorFullName(String actorFullName) {
-        this.actorFullName = actorFullName;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
     }
 
     public void setName(String name) {

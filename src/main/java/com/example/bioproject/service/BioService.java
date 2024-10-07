@@ -23,9 +23,6 @@ public class BioService {
         return movieToBeFound;
     }
 
-    public void setMovieID(){
-        bioRepository.setIDForMovie();
-    }
 
     public void deleteMovieFromRepository(int ID){
         bioRepository.deleteMovie(ID);

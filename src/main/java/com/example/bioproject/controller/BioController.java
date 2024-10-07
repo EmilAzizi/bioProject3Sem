@@ -21,7 +21,6 @@ public class BioController {
     @PostMapping("/api/cinema/movies")
     public Movie createMovie(@RequestBody Movie newMovie){
         bioService.createMovie(newMovie);
-        bioService.setMovieID();
         return newMovie;
     }
 

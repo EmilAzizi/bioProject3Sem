@@ -12,14 +12,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BioRepository {
     private List<Movie> movieList;
-    private Connection con;
-    private String db_url = "jdbc:mysql://localhost:3306/kea";
-    private String db_username = "root";
-    private String db_password = "Emperiusvalor1!";
-
-    public BioRepository() {
-        movieList = new ArrayList<>();
-    }
+    private String JDBC_USERNAME = "root";
+    private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
+    private String JDBC_PASSWORD = "Emperiusvalor1!";
 
 
 //    public List<Movie> getMovieList() {
@@ -30,63 +25,75 @@ public class BioRepository {
 //        movieList.add(newMovie);
 //    }
 
-    public void loadMoviesFromStartUp(){
-        if(movieList.isEmpty()){
-            try (Connection con = DriverManager.getConnection(db_url,db_username, db_password)){
-            String query = "SELECT * FROM movie";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+    public BioRepository() {
+        movieList = new ArrayList<>();
+    }
 
-            while (rs.next()) {
+    public void insertMoviesToMovieList(){
+        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM movie");
+            ResultSet resultSet = ps.executeQuery();
+            // Fuck you MySQL
+            while (resultSet.next()) {
                 Movie movie = new Movie();
-                movie.setID(rs.getInt("movieID"));
-                movie.setName(rs.getString("movieName"));
-                movie.setGenre(rs.getString("movieGenre"));
-                movie.setActorFullName(rs.getString("movieActors"));
-                movie.setGenre(rs.getString("movieDescription"));
-                movie.setAgeRestrction(rs.getInt("movieAgeRes"));
-                movie.setStartDate(rs.getDate("movieStartDate"));
-                movie.setEndDate(rs.getDate("movieEndDate"));
-                movie.setDuration(rs.getInt("movieLength"));
+                movie.setID(resultSet.getInt("movieID"));
+                movie.setName(resultSet.getString("movieName"));
+                movie.setGenre(resultSet.getString("movieGenre"));
+                movie.setActorFullName(resultSet.getString("movieActors"));
+                movie.setDescription(resultSet.getString("movieDescription"));
+                movie.setAgeRequirement(resultSet.getInt("movieAgeRes"));
+                movie.setStartDate(resultSet.getString("movieStartDate"));
+                movie.setEndDate(resultSet.getString("movieEndDate"));
+                movie.setDuration(resultSet.getInt("movieLength"));
                 movieList.add(movie);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Movie> getMovieList() {
-        loadMoviesFromStartUp();
+    public List<Movie> getMovieList(){
+        if(movieList.isEmpty()){
+            insertMoviesToMovieList();
+        }
         return movieList;
     }
 
-    public void insertMovie(Movie newMovie) {
-//        try {
-//            String query = "INSERT INTO movie (movieName, movieActors, movieDescription, movieAgeRes, movieStartDate, movieEndDate, movieLength) VALUES (?, ?, ?, ?, ?, ?, ?)";
-//            PreparedStatement pstmt = con.prepareStatement(query);
-//            pstmt.setString(1, newMovie.getName());
-//            pstmt.setString(2, newMovie.getActorFullName());
-//            pstmt.setString(3, newMovie.getGenre());
-//            pstmt.setBoolean(4, true);  // Replace with actual data
-//            pstmt.setDate(5, Date.valueOf("2020-01-01"));  // Replace with actual data
-//            pstmt.setDate(6, Date.valueOf("2020-01-01"));  // Replace with actual data
-//            pstmt.setInt(7, newMovie.getDuration());
-//            pstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    public void createMovie(Movie newMovie) {
+        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            // Prepare the SQL statement with RETURN_GENERATED_KEYS
+            String sql = "INSERT INTO movie (movieName, movieGenre, movieActors, movieDescription, movieAgeRes, movieStartDate, movieEndDate, movieLength)" +
+                    "VALUES(?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
+            // Set the values for the prepared statement
+            ps.setString(1, newMovie.getName());
+            ps.setString(2, newMovie.getGenre());
+            ps.setString(3, newMovie.getActorFullName());
+            ps.setString(4, newMovie.getDescription());
+            ps.setInt(5, newMovie.getAgeRequirement());  // Ensure BOOLEAN value here
+            ps.setString(6, newMovie.getStartDate());
+            ps.setString(7, newMovie.getEndDate());
+            ps.setInt(8, newMovie.getDuration());
 
-    }
+            // Execute the update
+            ps.executeUpdate();
 
-    public void setIDForMovie(){
-        int ID = 1;
-        for(Movie movie : movieList){
-            movie.setID(ID);
-            ID++;
+            // Retrieve the generated keys (movieID)
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int movieID = generatedKeys.getInt(1); // Get the generated movieID
+                newMovie.setID(movieID);               // Set it on the newMovie object
+            }
+
+            // Add the movie to the movie list
+            movieList.add(newMovie);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
     public Movie getMovieByID(int ID) {
         for (Movie movie : movieList) {
@@ -104,6 +111,16 @@ public class BioRepository {
         for (Movie movie : movieList) {
             if (movie.getID() == ID) {
                 removeMovie = movie;
+
+                try(Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)){
+                    PreparedStatement ps = con.prepareStatement("DELETE FROM movie WHERE movieID = ?");
+                    ps.setInt(1, ID);
+                    ps.executeUpdate();
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
                 break;
             }
         }
@@ -111,24 +128,53 @@ public class BioRepository {
         if (removeMovie != null) {
             movieList.remove(removeMovie);
         }
-        setIDForMovie();
     }
 
     public void updateMovie(int id, Movie updatedMovie) {
+
+        Movie movieToUpdate = new Movie();
+
         for (Movie movie : movieList) {
             if (movie.getID() == id) {
-                // Update the movie details
-//                movie.setName(updatedMovie.getName());
-//                movie.setGenre(updatedMovie.getGenre());
                 movie.setName(updatedMovie.getName());
-                movie.setDuration(updatedMovie.getDuration());
                 movie.setGenre(updatedMovie.getGenre());
-//                movie.setDescription(updatedMovie.getDescription());
-//                movie.setActorFullName(updatedMovie.getActorFullName());
-//                movie.setDate(updatedMovie.getDate());
-//                movie.setRuntime(updatedMovie.getRunTime());
-//                movie.setOldEnough(updatedMovie.getIsOldEnough());
+                movie.setActorFullName(updatedMovie.getActorFullName());
+                movie.setDescription(updatedMovie.getDescription());
+                movie.setAgeRequirement(updatedMovie.getAgeRequirement());
+                movie.setStartDate(updatedMovie.getStartDate());
+                movie.setEndDate(updatedMovie.getEndDate());
+                movie.setDuration(updatedMovie.getDuration());
+                movie = movieToUpdate;
                 break;
+            }
+        }
+
+        if(!movieToUpdate.equals(null)){
+            movieToUpdate.setName(updatedMovie.getName());
+            movieToUpdate.setGenre(updatedMovie.getGenre());
+            movieToUpdate.setActorFullName(updatedMovie.getActorFullName());
+            movieToUpdate.setDescription(updatedMovie.getDescription());
+            movieToUpdate.setAgeRequirement(updatedMovie.getAgeRequirement());
+            movieToUpdate.setStartDate(updatedMovie.getStartDate());
+            movieToUpdate.setEndDate(updatedMovie.getEndDate());
+            movieToUpdate.setDuration(updatedMovie.getDuration());
+
+            try(Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)){
+                PreparedStatement ps = con.prepareStatement("UPDATE movie SET movieName = ?, movieGenre = ?, movieActors = ?, movieDescription = ?, " +
+                        "movieAgeRes = ?, movieStartDate = ?, movieEndDate = ?, movieLength = ? WHERE movieID = ?");
+                ps.setString(1, movieToUpdate.getName());
+                ps.setString(2, movieToUpdate.getGenre());
+                ps.setString(3, movieToUpdate.getActorFullName());
+                ps.setString(4, movieToUpdate.getDescription());
+                ps.setInt(5, movieToUpdate.getAgeRequirement());
+                ps.setString(6, movieToUpdate.getStartDate());
+                ps.setString(7, movieToUpdate.getEndDate());
+                ps.setInt(8, movieToUpdate.getDuration());
+                ps.setInt(9, movieToUpdate.getID());
+                ps.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
     }
