@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400&display=swap');
+
+/* Body styling for en luksuriøs biograf-oplevelse */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2a2a2a;
+    /* Mørkegrå baggrund */
+    color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+    justify-content: flex-start;
+    overflow-x: hidden;
+}
+
+/* Header styling */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Hovedoverskrift styling */
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3em;
+    color: #ffd700;
+    /* Guld farve */
+    margin-bottom: 10px;
+    text-align: center;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    /* Tilføjet skygge til teksten */
+}
+
+/* Fremhævet film slider styling */
+.featured-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 10px;
+}
+
+.featured-movie img {
+    border-radius: 10px;
+    width: 300px;
+    height: 450px;
+    object-fit: cover;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-movie img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.9);
+}
+
+/* Movies list styling */
+#movies-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 film per række */
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    max-width: 1200px;
+}
+
+#movies-list li {
+    background: linear-gradient(145deg, #343434, #2a2a2a);
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid #ffd700;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9), -5px -5px 15px rgba(50, 50, 50, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+#movies-list li:hover {
+    transform: translateY(-8px);
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.9), -10px -10px 30px rgba(50, 50, 50, 0.5);
+}
+
+/* Poster billede styling */
+.movie-poster {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-poster:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+}
+
+.movie-link {
+    text-decoration: none;
+    color: #ffd700;
+    display: block;
+}
+
+.movie-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    /* Tilføjet skygge til titlen for dybde */
+}
+
+.movie-genre {
+    font-style: italic;
+    color: #bbbbbb;
+    margin-bottom: 10px;
+}
+
+.movie-duration {
+    font-weight: bold;
+    color: #f4f4f4;
+}
+
+/* Rating */
+.rating {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #ffd700;
+}
+
+/* Darken overlay */
+.darken-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 5;
+    display: none;
+}
+
+/* Modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 6;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    color: #fff;
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ffd700;
+}
+
+/* Media queries for small screens */
+@media (max-width: 768px) {
+    #movies-list {
+        grid-template-columns: 1fr;
+        /* 1 film per række på små skærme */
+    }
+
+    button {
+        padding: 10px 25px;
+    }
+
+
+
+}
+
+
+/* Create Movie button styling */
+#createMovieBtn {
+    background-color: #ffd700;
+    /* En flot grøn farve */
+    color: #2a2a2a;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 40px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 15px rgba(160, 184, 0, 0.6);
+}
+
+#createMovieBtn:hover {
+    color: white;
+    background-color: black;
+    /* Mørkere grøn ved hover */
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(160, 184, 0, 0.6);
+}
