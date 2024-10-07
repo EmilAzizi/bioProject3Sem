@@ -21,9 +21,9 @@ public class BioRepository {
         movieList.add(newMovie);
     }
 
-    public void setIDForMovie(){
+    public void setIDForMovie() {
         int ID = 1;
-        for(Movie movie : movieList){
+        for (Movie movie : movieList) {
             movie.setID(ID);
             ID++;
         }
@@ -37,7 +37,6 @@ public class BioRepository {
         }
         return null;
     }
-
 
     public void deleteMovie(int ID) {
         Movie removeMovie = null;
@@ -59,16 +58,16 @@ public class BioRepository {
         for (Movie movie : movieList) {
             if (movie.getID() == id) {
                 // Update the movie details
-//                movie.setName(updatedMovie.getName());
-//                movie.setGenre(updatedMovie.getGenre());
+                // movie.setName(updatedMovie.getName());
+                // movie.setGenre(updatedMovie.getGenre());
                 movie.setName(updatedMovie.getName());
                 movie.setDuration(updatedMovie.getDuration());
                 movie.setGenre(updatedMovie.getGenre());
-//                movie.setDescription(updatedMovie.getDescription());
-//                movie.setActorFullName(updatedMovie.getActorFullName());
-//                movie.setDate(updatedMovie.getDate());
-//                movie.setRuntime(updatedMovie.getRunTime());
-//                movie.setOldEnough(updatedMovie.getIsOldEnough());
+                // movie.setDescription(updatedMovie.getDescription());
+                // movie.setActorFullName(updatedMovie.getActorFullName());
+                // movie.setDate(updatedMovie.getDate());
+                // movie.setRuntime(updatedMovie.getRunTime());
+                movie.setAgeRequirement(updatedMovie.getAgeRequirement());
                 break;
             }
         }
