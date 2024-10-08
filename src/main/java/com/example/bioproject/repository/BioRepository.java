@@ -2,10 +2,8 @@ package com.example.bioproject.repository;
 
 import com.example.bioproject.model.Movie;
 
-import java.sql.PreparedStatement;
 import java.util.*;
 import java.sql.*;
-import java.sql.Date;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,20 +14,19 @@ public class BioRepository {
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
     private String JDBC_PASSWORD = "Emperiusvalor1!";
 
-
-//    public List<Movie> getMovieList() {
-//        return movieList;
-//    }
-//
-//    public void createMovie(Movie newMovie) {
-//        movieList.add(newMovie);
-//    }
+    // public List<Movie> getMovieList() {
+    // return movieList;
+    // }
+    //
+    // public void createMovie(Movie newMovie) {
+    // movieList.add(newMovie);
+    // }
 
     public BioRepository() {
         movieList = new ArrayList<>();
     }
 
-    public void insertMoviesToMovieList(){
+    public void insertMoviesToMovieList() {
         try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM movie");
             ResultSet resultSet = ps.executeQuery();
@@ -52,8 +49,8 @@ public class BioRepository {
         }
     }
 
-    public List<Movie> getMovieList(){
-        if(movieList.isEmpty()){
+    public List<Movie> getMovieList() {
+        if (movieList.isEmpty()) {
             insertMoviesToMovieList();
         }
         return movieList;
@@ -62,7 +59,8 @@ public class BioRepository {
     public void createMovie(Movie newMovie) {
         try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
             // Prepare the SQL statement with RETURN_GENERATED_KEYS
-            String sql = "INSERT INTO movie (movieName, movieGenre, movieActors, movieDescription, movieAgeRes, movieStartDate, movieEndDate, movieLength)" +
+            String sql = "INSERT INTO movie (movieName, movieGenre, movieActors, movieDescription, movieAgeRes, movieStartDate, movieEndDate, movieLength)"
+                    +
                     "VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -71,7 +69,7 @@ public class BioRepository {
             ps.setString(2, newMovie.getGenre());
             ps.setString(3, newMovie.getActorFullName());
             ps.setString(4, newMovie.getDescription());
-            ps.setInt(5, newMovie.getAgeRequirement());  // Ensure BOOLEAN value here
+            ps.setInt(5, newMovie.getAgeRequirement()); // Ensure BOOLEAN value here
             ps.setString(6, newMovie.getStartDate());
             ps.setString(7, newMovie.getEndDate());
             ps.setInt(8, newMovie.getDuration());
@@ -83,7 +81,7 @@ public class BioRepository {
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int movieID = generatedKeys.getInt(1); // Get the generated movieID
-                newMovie.setID(movieID);               // Set it on the newMovie object
+                newMovie.setID(movieID); // Set it on the newMovie object
             }
 
             // Add the movie to the movie list
@@ -94,7 +92,6 @@ public class BioRepository {
         }
     }
 
-
     public Movie getMovieByID(int ID) {
         for (Movie movie : movieList) {
             if (movie.getID() == ID) {
@@ -104,7 +101,6 @@ public class BioRepository {
         return null;
     }
 
-
     public void deleteMovie(int ID) {
         Movie removeMovie = null;
 
@@ -112,7 +108,7 @@ public class BioRepository {
             if (movie.getID() == ID) {
                 removeMovie = movie;
 
-                try(Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)){
+                try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
                     PreparedStatement ps = con.prepareStatement("DELETE FROM movie WHERE movieID = ?");
                     ps.setInt(1, ID);
                     ps.executeUpdate();
@@ -155,8 +151,7 @@ public class BioRepository {
             try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
                 PreparedStatement ps = con.prepareStatement(
                         "UPDATE movie SET movieName = ?, movieGenre = ?, movieActors = ?, movieDescription = ?, " +
-                                "movieAgeRes = ?, movieStartDate = ?, movieEndDate = ?, movieLength = ? WHERE movieID = ?"
-                );
+                                "movieAgeRes = ?, movieStartDate = ?, movieEndDate = ?, movieLength = ? WHERE movieID = ?");
                 ps.setString(1, movieToUpdate.getName());
                 ps.setString(2, movieToUpdate.getGenre());
                 ps.setString(3, movieToUpdate.getActorFullName());
@@ -174,4 +169,62 @@ public class BioRepository {
         }
 
     }
+
+    public int getMaxSeats(int theaterID) {
+
+        int maxSeats = 0;
+
+        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            String sql = """
+                            SELECT movieMaxSeats FROM movie WHERE movieTheaterID = ?
+                    """;
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, theaterID);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    maxSeats = rs.getInt("movieMaxSeats");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return maxSeats;
+    }
+
+    public int calculateNewRemainingSeats(int seatsReserved, int movieTheaterID) {
+        int maxSeats = getMaxSeats(movieTheaterID);
+        int newRemainingSeats = maxSeats - seatsReserved;
+
+        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_PASSWORD, JDBC_USERNAME)) {
+            String sql = """
+                            UPDATE movieRemainingSeats = ? FROM movie WHERE movieTheaterID = ?
+                    """;
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, newRemainingSeats);
+            ps.setInt(2, movieTheaterID);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return newRemainingSeats;
+    }
+
+    public void reserveTicket(int seatsReserved) {
+        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+
+            String sql = """
+                            UPDATE movie SET movieRemainingSeats = ? WHERE movieTheaterID = ?
+                    """;
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

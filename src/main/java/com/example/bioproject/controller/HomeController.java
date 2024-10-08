@@ -33,7 +33,7 @@ public class HomeController {
 
     @GetMapping("/user/reserveTicket")
     public String reserveTicket() {
-        return "";
+        return "userHomePage";
     }
 
     @PostMapping("/user/reserveTicket/{userEmail}")
