@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Movies</title>
+</head>
+
+<body>
+    <header>
+        <h1>Now Showing - Cinema Movies</h1>
+    </header>
+
+    <!-- Sektion til visning af film i bokse -->
+    <section id="movies-section">
+        <h2>Available Movies</h2>
+        <div id="movies-list" class="movies-container">
+            <!-- Movies will be displayed here -->
+        </div>
+    </section>
+
+    <!-- Sektion til reservation med dropdown funktion -->
+    <section id="reserve-section">
+        <button id="reserve-toggle">Reserve Tickets</button>
+        <form id="reserve-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="screening">Select Movie:</label>
+            <select id="screening" name="screening" required>
+                <!-- Movie options will be populated here dynamically -->
+            </select>
+
+            <label for="number-of-seats">Number of Seats:</label>
+            <input type="number" id="number-of-seats" name="numberOfSeats" min="1" required>
+
+            <button type="submit">Reserve Tickets</button>
+        </form>
+        <p id="reserve-message"></p>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const moviesList = document.getElementById('movies-list');
+            const screeningSelect = document.getElementById('screening');
+            const reserveForm = document.getElementById('reserve-form');
+            const reserveMessage = document.getElementById('reserve-message');
+            const reserveSection = document.getElementById('reserve-section');
+            const reserveToggle = document.getElementById('reserve-toggle');
+
+            // Toggle dropdown for reserve section
+            reserveToggle.addEventListener('click', function () {
+                reserveSection.classList.toggle('open');
+            });
+
+            // Fetch movies from the Java backend API to populate both the movie list and the dropdown
+            fetch('/api/cinema/movies')
+                .then(response => response.json())
+                .then(movies => {
+                    movies.forEach(movie => {
+                        // Tilføj film til "Available Movies" listen i bokse
+                        const movieItem = document.createElement('div');
+                        movieItem.classList.add('movie-item');
+                        movieItem.innerHTML = `
+                            <div class="movie-info">
+                                <h3 class="movie-title">${movie.name}</h3>
+                                <p class="movie-genre">Genre: ${movie.genre}</p>
+                                <p class="movie-duration">Duration: ${movie.duration} mins</p>
+                                <p class="movie-age">Age Requirement: ${movie.ageRequirement}+</p>
+                                <p class="movie-actors">Actors: ${movie.actorFullName}</p>
+                                <p class="movie-description">${movie.description}</p>
+                                <p class="movie-dates">Showing: ${movie.startDate} - ${movie.endDate}</p>
+                            </div>
+                        `;
+                        moviesList.appendChild(movieItem);
+
+                        // Tilføj film til dropdown i reservationsformularen
+                        const option = document.createElement('option');
+                        option.value = movie.id;
+                        option.textContent = movie.name;
+                        screeningSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching movies:', error);
+                    reserveMessage.textContent = 'Error loading movies. Please try again later.';
+                    reserveMessage.style.color = 'red';
+                });
+
+            // Handle reserve ticket form submission
+            reserveForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission behavior
+
+                const email = document.getElementById('email').value;
+                const screeningId = document.getElementById('screening').value;
+                const numberOfSeats = parseInt(document.getElementById('number-of-seats').value);
+
+                // Send reservation request to backend
+                fetch('/api/screen/reserve', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userEmail: email,
+                        amountReserved: numberOfSeats,
+                        screeningId: screeningId,
+                    }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            reserveMessage.textContent = 'Tickets reserved successfully!';
+                            reserveMessage.style.color = 'green';
+                            reserveForm.reset(); // Reset the form after successful reservation
+                        } else {
+                            reserveMessage.textContent = 'Failed to reserve tickets. Please try again.';
+                            reserveMessage.style.color = 'red';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error reserving tickets:', error);
+                        reserveMessage.textContent = 'Error reserving tickets. Please try again later.';
+                        reserveMessage.style.color = 'red';
+                    });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
