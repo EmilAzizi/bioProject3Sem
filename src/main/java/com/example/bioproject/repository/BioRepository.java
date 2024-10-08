@@ -4,6 +4,9 @@ import com.example.bioproject.model.Movie;
 
 import java.sql.PreparedStatement;
 import java.util.*;
+
+import javax.management.RuntimeErrorException;
+
 import java.sql.*;
 import java.sql.Date;
 
@@ -173,5 +176,64 @@ public class BioRepository {
             }
         }
 
+    }
+
+    public int getMaxSeats(int theaterID) {
+
+        int maxSeats = 0;
+
+        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            String sql = """
+                            SELECT movieMaxSeats FROM movie WHERE movieTheaterID = ?
+                    """;
+
+                    PreparedStatement ps = con.prepareStatement(sql);
+
+                    ps.setInt(1, theaterID);
+                        try (ResultSet rs = ps.executeQuery()) {
+                            while (rs.next()) {
+                                maxSeats = rs.getInt("movieMaxSeats");
+                            }
+                        }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+            return maxSeats;
+    }
+
+    public int calculateNewRemainingSeats(int seatsReserved, int movieTheaterID) {
+            int maxSeats = getMaxSeats(movieTheaterID);
+            int newRemainingSeats = maxSeats - seatsReserved;
+            
+            try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_PASSWORD, JDBC_USERNAME)) {
+                String sql = """
+                                UPDATE movieRemainingSeats = ? FROM movie WHERE movieTheaterID = ?
+                        """;
+                        PreparedStatement ps = con.prepareStatement(sql);
+                        ps.setInt(1, newRemainingSeats);
+                        ps.setInt(2, movieTheaterID);
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        return newRemainingSeats;
+    }
+
+    public void reserveTicket(int seatsReserved) {
+        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            
+            String sql = """
+                            UPDATE movie SET movieRemainingSeats = ? WHERE movieTheaterID = ?
+                    """;
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+
+        
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
