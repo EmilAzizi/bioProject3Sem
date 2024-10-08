@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Movies</title>
+    <link rel="stylesheet" href="homePage.css">
+</head>
+
+<body>
+
+    <h1>Now Showing</h1>
+    <button id="createMovieBtn">Create Movie</button>
+
+    <ul id="movies-list">
+        <!-- Movies will be displayed here -->
+    </ul>
+
+    <script>
+        // Fetch movies from the Java backend API
+        fetch('/api/cinema/movies')
+            .then(response => response.json())
+            .then(movies => {
+                const moviesList = document.getElementById('movies-list');
+                movies.forEach(movie => {
+                    const movieItem = document.createElement('li');
+
+                    movieItem.innerHTML = `
+                        <a href="movieDetails/${movie.id}" class="movie-link">
+                        <div class="movie-title">${movie.name}</div>
+                        <div class="movie-genre">${movie.genre}</div>
+                        <div class="movie-duration">${movie.duration} mins</div>
+                        </a>
+                        `;
+
+                    moviesList.appendChild(movieItem);
+                });
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+
+        // Event listener for the 'Create Movie' button
+        document.getElementById('createMovieBtn').addEventListener('click', function () {
+            window.location.href = 'movieForm';
+        });
+    </script>
+
+</body>
+
+</html>
