@@ -9,15 +9,8 @@ public class ScreenRepository {
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
     private String JDBC_PASSWORD = "Emperiusvalor1!";
 
-
     public String reserveTicket(String userEmail, int amountReserved) {
-
-
         
-            return userEmail;
+        return userEmail;
     }
-
-
-
-    
 }

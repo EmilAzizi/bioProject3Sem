@@ -15,24 +15,18 @@ public class ScreenController {
 
     private ScreenService screenService;
 
-
     public ScreenController(ScreenService screenService) {
         this.screenService = screenService;
     }
 
-
     @GetMapping("/reserveTicket")
     public String reserveTicket() {
+        return "";
+    }
+
+    @PostMapping("/reserveTicket/{userEmail}")
+    public String postTicket() {
         screenService.reserveTickets(null, 0);
         return "";
     }
-
-    @PostMapping("/reserveTicket/{userEmail}") 
-    public String postTicket() {
-        
-        return "";
-    }
-
-    
-    
 }

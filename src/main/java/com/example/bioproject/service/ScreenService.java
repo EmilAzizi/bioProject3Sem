@@ -13,9 +13,8 @@ public class ScreenService {
     }
 
     public String reserveTickets(String userEmail, int amountReserved) {
-        return userEmail;
+        return screenRepository.reserveTicket(userEmail, amountReserved);
     }
-
 
     
 }
