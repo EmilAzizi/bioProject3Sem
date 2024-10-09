@@ -1,5 +1,5 @@
 package com.example.bioproject.controller;
-
+/*
 import org.springframework.stereotype.Controller;
 import com.example.bioproject.service.ScreenService;
 
@@ -29,4 +29,4 @@ public class ScreenController {
         screenService.reserveTickets(null, 0);
         return "";
     }
-}
+}*/
