@@ -12,7 +12,7 @@ public class BioRepository {
     private List<Movie> movieList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "1234";
+    private String JDBC_PASSWORD = "Emperiusvalor1!";
 
     // public List<Movie> getMovieList() {
     // return movieList;
@@ -30,7 +30,6 @@ public class BioRepository {
         try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM movie");
             ResultSet resultSet = ps.executeQuery();
-            // Fuck you MySQL
             while (resultSet.next()) {
                 Movie movie = new Movie();
                 movie.setID(resultSet.getInt("movieID"));
@@ -42,6 +41,9 @@ public class BioRepository {
                 movie.setStartDate(resultSet.getString("movieStartDate"));
                 movie.setEndDate(resultSet.getString("movieEndDate"));
                 movie.setDuration(resultSet.getInt("movieLength"));
+                movie.setMaxSeats(resultSet.getInt("movieMaxSeats"));
+                movie.setRemainingSeats(resultSet.getInt("movieRemainingSeats"));
+                movie.setTheaterID(resultSet.getInt("movieTheaterID"));
                 movieList.add(movie);
             }
         } catch (SQLException e) {
@@ -170,18 +172,18 @@ public class BioRepository {
 
     }
 
-    public int getMaxSeats(int theaterID) {
+    public int getMaxSeats(int movieID) {
 
         int maxSeats = 0;
 
         try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
             String sql = """
-                            SELECT movieMaxSeats FROM movie WHERE movieTheaterID = ?
+                            SELECT movieMaxSeats FROM movie WHERE movieID = ?
                     """;
 
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setInt(1, theaterID);
+            ps.setInt(1, movieID);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     maxSeats = rs.getInt("movieMaxSeats");
@@ -194,21 +196,23 @@ public class BioRepository {
         return maxSeats;
     }
 
-    public int reserveTicket(int seatsReserved, int movieTheaterID) {
-        int maxSeats = getMaxSeats(movieTheaterID);
+    public int reserveTicket(int seatsReserved, int movieID) {
+        int maxSeats = getMaxSeats(movieID);
         int newRemainingSeats = maxSeats - seatsReserved;
 
         try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_PASSWORD, JDBC_USERNAME)) {
             String sql = """
-                            UPDATE movieRemainingSeats = ? FROM movie WHERE movieTheaterID = ?
+                            UPDATE movieRemainingSeats = ? FROM movie WHERE movieID = ?
                     """;
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, newRemainingSeats);
-            ps.setInt(2, movieTheaterID);
+            ps.setInt(2, movieID);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
 
         return newRemainingSeats;
     }

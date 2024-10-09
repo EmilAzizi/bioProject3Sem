@@ -38,6 +38,10 @@
             <p><strong>Duration:</strong> ${movie.duration} mins</p>
             <p><strong>Description:</strong> ${movie.description || 'No description available.'}</p>
             <p><strong>Age requirement:</strong> ${movie.ageRequirement}</p>
+            <p><strong>Max Seats:</strong> ${movie.maxSeats}</p>
+            <p><strong>Remaining Seats:</strong> ${movie.remainingSeats}</p>
+
+
         `;
             })
             .catch(error => console.error('Error fetching movie details:', error));

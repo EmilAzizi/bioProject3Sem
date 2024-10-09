@@ -41,4 +41,14 @@ public class HomeController {
         //bioService.reserveTickets();
         return "";
     }
+
+    @GetMapping("/userHomepage")
+    public String getMovies(){
+        return "userHomePage";
+    }
+
+    @GetMapping("userMovieDetails/{ID}")
+    public String getSpecificMovie(@PathVariable int ID){
+        return "userMovieDetails";
+    }
 }

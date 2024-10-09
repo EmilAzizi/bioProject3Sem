@@ -19,7 +19,7 @@ public class Movie {
     public Movie (){
     }
 
-    public Movie (int ID, String name, String genre, String actorFullName, String description, int ageRequirement, String startDate, String endDate, int duration){
+    public Movie (int ID, String name, String genre, String actorFullName, String description, int ageRequirement, String startDate, String endDate, int duration, int maxSeats, int remainingSeats, int theaterID){
         this.ID = ID;
         this.name = name;
         this.genre = genre;
@@ -29,6 +29,9 @@ public class Movie {
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
+        this.maxSeats = maxSeats;
+        this.remainingSeats = remainingSeats;
+        this.theaterID = theaterID;
     }
 
     // to do: generator til kunden.
