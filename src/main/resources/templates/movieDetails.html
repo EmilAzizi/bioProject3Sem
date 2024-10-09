@@ -24,13 +24,13 @@
     <script>
         // Get the movie ID from the URL
         const urlParams = new URLSearchParams(window.location.search);
-        const movieId = urlParams.get('id'); // Movie ID passed in the query string
+        const movieId = window.location.pathname.split('/').pop(); // Movie ID passed in the query string
 
         // Fetch the movie details from the backend using the movie ID
         fetch(`/api/cinema/movies/${movieId}`)
             .then(response => response.json())
             .then(movie => {
-                console.log(movie);  // Add this line to debug the response
+                // Add this line to debug the response
                 const movieDetailsDiv = document.getElementById('movie-details');
                 movieDetailsDiv.innerHTML = `
             <h2>${movie.name}</h2>
