@@ -12,7 +12,7 @@ public class BioRepository {
     private List<Movie> movieList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "Emperiusvalor1!";
+    private String JDBC_PASSWORD = "1234";
 
     // public List<Movie> getMovieList() {
     // return movieList;
@@ -194,7 +194,7 @@ public class BioRepository {
         return maxSeats;
     }
 
-    public int calculateNewRemainingSeats(int seatsReserved, int movieTheaterID) {
+    public int reserveTicket(int seatsReserved, int movieTheaterID) {
         int maxSeats = getMaxSeats(movieTheaterID);
         int newRemainingSeats = maxSeats - seatsReserved;
 
@@ -213,7 +213,7 @@ public class BioRepository {
         return newRemainingSeats;
     }
 
-    public void reserveTicket(int seatsReserved) {
+    public void reserveTicket2(int seatsReserved) {
         try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
 
             String sql = """

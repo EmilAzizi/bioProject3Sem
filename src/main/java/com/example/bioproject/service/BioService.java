@@ -8,8 +8,13 @@ import java.util.*;
 
 @Service
 public class BioService {
-    BioRepository bioRepository = new BioRepository();
+    private final BioRepository bioRepository;
 
+    // Constructor-based injection
+    public BioService(BioRepository bioRepository) {
+        this.bioRepository = bioRepository;
+    }
+    
     public List<Movie> getMovieListFromRepository() {
         return bioRepository.getMovieList();
     }
@@ -31,7 +36,7 @@ public class BioService {
         bioRepository.updateMovie(id, updatedMovie);
     }
 
-    public void reserveTickets(int amountReserved) {
-        bioRepository.reserveTicket(amountReserved);
+    public void reserveTickets(int amountReserved, int movieTheaterID) {
+        bioRepository.reserveTicket(amountReserved, movieTheaterID);
     }
 }

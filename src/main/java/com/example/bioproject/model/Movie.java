@@ -12,6 +12,9 @@ public class Movie {
     private String startDate;
     private String endDate;
     private int ID;
+    private int maxSeats;
+    private int remainingSeats;
+    private int theaterID;
 
     public Movie (){
     }
@@ -26,6 +29,32 @@ public class Movie {
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
+    }
+
+    // to do: generator til kunden.
+
+    public int getMaxSeats() {
+        return maxSeats;
+    }
+
+    public void setMaxSeats(int maxSeats) {
+        this.maxSeats = maxSeats;
+    }
+
+    public int getRemainingSeats() {
+        return remainingSeats;
+    }
+
+    public void setRemainingSeats(int remainingSeats) {
+        this.remainingSeats = remainingSeats;
+    }
+
+    public int getTheaterID() {
+        return theaterID;
+    }
+
+    public void setTheaterID(int theaterID) {
+        this.theaterID = theaterID;
     }
 
     public void setDescription(String description) {

@@ -38,7 +38,7 @@ public class HomeController {
 
     @PostMapping("/user/reserveTicket/{userEmail}")
     public String postTicket() {
-        bioService.reserveTickets(0);
+        //bioService.reserveTickets();
         return "";
     }
 }
