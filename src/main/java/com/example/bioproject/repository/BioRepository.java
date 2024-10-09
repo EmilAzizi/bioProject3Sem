@@ -231,4 +231,37 @@ public class BioRepository {
         }
     }
 
+    public void reserveTickets(int ID, int wishedReservedSeats) throws Exception {
+        Movie movieToChangeSeats = null;
+        int newSeatsAmount = 0;
+        for(Movie movie : movieList){
+            if(movie.getID() == ID){
+                newSeatsAmount = movie.getRemainingSeats() - wishedReservedSeats; // Change from getMaxSeats to getRemainingSeats
+                if(newSeatsAmount < 0){
+                    throw new Exception("You can't book more seats than the remaining.");
+                } else {
+                    movie.setRemainingSeats(newSeatsAmount);
+                    movieToChangeSeats = movie;
+                    break;
+                }
+            }
+        }
+
+        if(movieToChangeSeats != null) {
+            // Update the database
+            try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+                String sql = "UPDATE movie SET movieRemainingSeats = ? WHERE movieID = ?";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1, newSeatsAmount);
+                ps.setInt(2, ID);
+                ps.executeUpdate(); // Execute the update
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            throw new Exception("Movie not found.");
+        }
+    }
+
+
 }

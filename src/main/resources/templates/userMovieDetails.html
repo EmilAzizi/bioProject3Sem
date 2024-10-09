@@ -46,7 +46,6 @@
     </style>
 </head>
 
-
 <body>
 
 <h1>Movie Details</h1>
@@ -69,11 +68,6 @@
             <label for="phone">Phone Number (Optional):</label>
             <input type="tel" id="phone" name="phone"><br><br>
 
-            <label for="screening">Select Movie:</label>
-            <select id="screening" name="screening" required>
-                <!-- Movie options will be populated here dynamically -->
-            </select><br><br>
-
             <label for="number-of-seats">Number of Seats:</label>
             <input type="number" id="number-of-seats" name="numberOfSeats" min="1" required><br><br>
 
@@ -85,8 +79,7 @@
 
 <script>
     // Get the movie ID from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const movieId = window.location.pathname.split('/').pop(); // Movie ID passed in the query string
+    const movieId = window.location.pathname.split('/').pop(); // Movie ID passed in the URL
 
     // Fetch the movie details from the backend using the movie ID
     fetch(`/api/cinema/movies/${movieId}`)
@@ -99,77 +92,67 @@
             <p><strong>Duration:</strong> ${movie.duration} mins</p>
             <p><strong>Description:</strong> ${movie.description || 'No description available.'}</p>
             <p><strong>Age requirement:</strong> ${movie.ageRequirement}</p>
+            <p><strong>Max amount of seats:</strong> ${movie.maxSeats}</p>
+            <p><strong>Remaining amount of seats:</strong> ${movie.remainingSeats}</p>
         `;
-
-            // Populate the movie dropdown with the current movie
-            const screeningSelect = document.getElementById('screening');
-            const option = document.createElement('option');
-            option.value = movie.id;
-            option.textContent = movie.name;
-            screeningSelect.appendChild(option);
         })
         .catch(error => console.error('Error fetching movie details:', error));
 
-    // Get modal elements
-    const modal = document.getElementById('reservationModal');
-    const btn = document.getElementById('editMovieBtn');
+    // Show reservation modal
+    const reservationModal = document.getElementById('reservationModal');
+    const editMovieBtn = document.getElementById('editMovieBtn');
     const closeBtn = document.getElementsByClassName('close')[0];
 
-    // Show the modal when the button is clicked
-    btn.onclick = function() {
-        modal.style.display = 'flex'; // Display modal
+    editMovieBtn.onclick = function () {
+        reservationModal.style.display = 'flex';
     }
 
-    // Hide the modal when the close button is clicked
-    closeBtn.onclick = function() {
-        modal.style.display = 'none';
+    closeBtn.onclick = function () {
+        reservationModal.style.display = 'none';
     }
 
-    // Hide the modal when the user clicks outside of the modal content
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
+    window.onclick = function (event) {
+        if (event.target === reservationModal) {
+            reservationModal.style.display = 'none';
         }
     }
 
     // Handle reservation form submission
-    document.getElementById('reserve-form').addEventListener('submit', function (e) {
-        e.preventDefault();  // Prevent traditional form submission
+    const reserveForm = document.getElementById('reserve-form');
+    reserveForm.onsubmit = function (event) {
+        event.preventDefault(); // Prevent form submission
 
         const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value; // Optional phone field
-        const screeningId = document.getElementById('screening').value;
         const numberOfSeats = document.getElementById('number-of-seats').value;
 
-        // Send reservation request to the backend
-        fetch('/api/screen/reserve', {
+        // Send the reservation request to the backend
+        fetch(`/api/cinema/movies/${movieId}/reserve`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                userEmail: email,
-                userPhone: phone || null,  // Send phone if provided, otherwise null
-                amountReserved: numberOfSeats,
-                screeningId: screeningId
-            })
+            body: JSON.stringify({ email, numberOfSeats }),
         })
             .then(response => {
                 if (response.ok) {
-                    document.getElementById('reserve-message').textContent = 'Tickets reserved successfully!';
-                    document.getElementById('reserve-message').style.color = 'green';
-                    document.getElementById('reserve-form').reset();
+                    return response.json();
                 } else {
-                    document.getElementById('reserve-message').textContent = 'Failed to reserve tickets. Please try again.';
-                    document.getElementById('reserve-message').style.color = 'red';
+                    throw new Error('Failed to reserve tickets.');
                 }
             })
+            .then(data => {
+                document.getElementById('reserve-message').innerText = `Successfully reserved ${data.reservedSeats} seats!`;
+                reservationModal.style.display = 'none'; // Close modal after successful reservation
+
+                // Reload the page after reservation confirmation
+                location.reload();
+            })
             .catch(error => {
-                console.error('Error reserving tickets:', error);
-                document.getElementById('reserve-message').textContent = 'Error reserving tickets. Please try again later.';
-                document.getElementById('reserve-message').style.color = 'red';
+                console.error('Error:', error);
+                document.getElementById('reserve-message').innerText = 'Error reserving tickets. Please try again.';
             });
-    });
+    }
+
 </script>
 
 </body>

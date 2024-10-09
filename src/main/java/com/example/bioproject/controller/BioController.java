@@ -2,6 +2,8 @@ package com.example.bioproject.controller;
 
 import java.util.*;
 import com.example.bioproject.model.Movie;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,4 +49,23 @@ public class BioController {
         System.out.println(movieToBeUpdated.toString());
         return movieToBeUpdated;
     }
+
+    @PostMapping("/api/cinema/movies/{ID}/reserve")
+    public ResponseEntity<?> reserveTickets(@PathVariable int ID, @RequestBody Map<String, Object> payload) {
+        String email = (String) payload.get("email");
+
+        // Get the numberOfSeats as a String and then convert it to Integer
+        String numberOfSeatsString = (String) payload.get("numberOfSeats");
+        int numberOfSeats = Integer.parseInt(numberOfSeatsString); // Convert to Integer
+
+        try {
+            bioService.reserveTickets(ID, numberOfSeats); // Call your existing method
+            return ResponseEntity.ok(Collections.singletonMap("reservedSeats", numberOfSeats));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to reserve tickets: " + e.getMessage());
+        }
+    }
+
+
+
 }

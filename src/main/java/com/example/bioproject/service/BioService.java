@@ -36,7 +36,12 @@ public class BioService {
         bioRepository.updateMovie(id, updatedMovie);
     }
 
-    public void reserveTickets(int amountReserved, int movieTheaterID) {
-        bioRepository.reserveTicket(amountReserved, movieTheaterID);
+    public void reserveTickets(int movieID, int wishedAmountOfSeats) {
+        //bioRepository.reserveTicket(amountReserved, movieTheaterID);
+        try {
+            bioRepository.reserveTickets(movieID, wishedAmountOfSeats);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
