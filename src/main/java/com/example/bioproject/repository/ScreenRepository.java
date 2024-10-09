@@ -10,7 +10,7 @@ public class ScreenRepository {
     private String JDBC_PASSWORD = "Emperiusvalor1!";
 
     public String reserveTicket(String userEmail, int amountReserved) {
-        
+
         return userEmail;
     }
 }

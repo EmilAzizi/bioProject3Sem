@@ -33,12 +33,12 @@ public class HomeController {
 
     @GetMapping("/user/reserveTicket")
     public String reserveTicket() {
-        return "";
+        return "userHomePage";
     }
 
     @PostMapping("/user/reserveTicket/{userEmail}")
     public String postTicket() {
-        bioService.reserveTickets(0);
+        //bioService.reserveTickets();
         return "";
     }
 }

@@ -10,7 +10,13 @@ import com.example.bioproject.service.BioService;
 
 @RestController
 public class BioController {
-    BioService bioService = new BioService();
+    
+    private final BioService bioService;
+
+    // Constructor-based injection
+    public BioController(BioService bioService) {
+        this.bioService = bioService;
+    }
 
     @GetMapping("/api/cinema/movies")
     public List<Movie> parseMovieToJson(){
