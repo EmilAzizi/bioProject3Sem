@@ -3,10 +3,10 @@ services:
   db:
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 27SlimHuskies
       MYSQL_DATABASE: kea
       MYSQL_USER: root
-      MYSQL_PASSWORD: 1234
+      MYSQL_PASSWORD: 27SlimHuskies
       MYSQL_HOST: db
     volumes:
       - db_data:/var/lib/mysql

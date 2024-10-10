@@ -248,7 +248,7 @@ h1 {
 }
  
 .navbar a:hover {
-    color: white;
+    color: black;
     background-color: #ffd700;
     border-radius: 30px;
     /* transition: 0.3s; */

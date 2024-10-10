@@ -21,17 +21,17 @@ public class HomeController {
         return "movieForm";
     }
 
-    @GetMapping("/movieDetails/{ID}")
+    @GetMapping("/movieDetails/view/{ID}")
     public String movieDetails(@PathVariable int ID) {
         return "movieDetails";
     }
 
-    @GetMapping("/editMovie/{ID}")
+    @GetMapping("/editMovie/view/{ID}")
     public String editMovie(@PathVariable int ID) {
         return "editMovie";
     }
 
-    @GetMapping("/editSnack/{ID}")
+    @GetMapping("/editSnack/view/{ID}")
     public String editSnack(@PathVariable int ID) {
         return "editKiosk";
     }
@@ -43,32 +43,32 @@ public class HomeController {
 
     @PostMapping("/user/reserveTicket/{userEmail}")
     public String postTicket() {
-        //bioService.reserveTickets();
+        // bioService.reserveTickets();
         return "";
     }
 
     @GetMapping("/userHomepage")
-    public String getMovies(){
+    public String getMovies() {
         return "userHomePage";
     }
 
-    @GetMapping("userMovieDetails/{ID}")
-    public String getSpecificMovie(@PathVariable int ID){
+    @GetMapping("userMovieDetails/view/{ID}")
+    public String getSpecificMovie(@PathVariable int ID) {
         return "userMovieDetails";
     }
 
     @GetMapping("/kioskHomepage")
-    public String kioskHome(){
+    public String kioskHome() {
         return "kioskHomepage";
     }
 
     @GetMapping("/kioskForm")
-    public String createKiosk(){
+    public String createKiosk() {
         return "kioskForm";
     }
 
-    @GetMapping("/kioskDetails/{ID}")
-    public String showKioskDetails(@PathVariable int ID){
+    @GetMapping("/kioskDetails/view/{ID}")
+    public String showKioskDetails(@PathVariable int ID) {
         return "kioskDetails";
     }
 }
