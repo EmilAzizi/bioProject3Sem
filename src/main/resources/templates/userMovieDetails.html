@@ -55,6 +55,7 @@
 </div>
 
 <button id="editMovieBtn">Reserve</button>
+<button id="cancel">Cancel</button>
 
 <!-- Modal Structure -->
 <div id="reservationModal" class="modal">
@@ -78,6 +79,10 @@
 </div>
 
 <script>
+
+    document.getElementById('cancel').addEventListener('click', function () {
+        window.location.href = `/userHomepage`;
+    });
     // Get the movie ID from the URL
     const movieId = window.location.pathname.split('/').pop(); // Movie ID passed in the URL
 
