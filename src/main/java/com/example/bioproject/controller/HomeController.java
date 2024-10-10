@@ -31,6 +31,11 @@ public class HomeController {
         return "editMovie";
     }
 
+    @GetMapping("/editSnack/{ID}")
+    public String editSnack(@PathVariable int ID) {
+        return "editKiosk";
+    }
+
     @GetMapping("/user/reserveTicket")
     public String reserveTicket() {
         return "userHomePage";
@@ -50,5 +55,20 @@ public class HomeController {
     @GetMapping("userMovieDetails/{ID}")
     public String getSpecificMovie(@PathVariable int ID){
         return "userMovieDetails";
+    }
+
+    @GetMapping("/kioskHomepage")
+    public String kioskHome(){
+        return "kioskHomepage";
+    }
+
+    @GetMapping("/kioskForm")
+    public String createKiosk(){
+        return "kioskForm";
+    }
+
+    @GetMapping("/kioskDetails/{ID}")
+    public String showKioskDetails(@PathVariable int ID){
+        return "kioskDetails";
     }
 }

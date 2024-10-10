@@ -33,7 +33,7 @@
  }
 
  /* Movie details container */
- #movie-details {
+ #kiosk-details {
      background: linear-gradient(145deg, #343434, #2a2a2a);
      border: 2px solid #ffd700;
      border-radius: 15px;
@@ -51,7 +51,7 @@
  }
 
  /* Styling for the movie name */
- #movie-details h2 {
+ #kiosk-details h2 {
      font-family: 'Cinzel', serif;
      font-size: 2.5rem;
      color: #ffd700;
@@ -60,14 +60,14 @@
  }
 
  /* Movie details text */
- #movie-details p {
+ #kiosk-details p {
      font-size: 1.1rem;
      line-height: 1.6;
      color: #f4f4f4;
      margin-bottom: 10px;
  }
 
- #movie-details p strong {
+ #kiosk-details p strong {
      color: #ffd700;
      font-family: 'Cinzel', serif;
  }
@@ -105,7 +105,7 @@
          font-size: 2.5rem;
      }
 
-     #movie-details {
+     #kiosk-details {
          padding: 20px;
      }
 

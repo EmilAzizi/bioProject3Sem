@@ -19,8 +19,36 @@ public class KioskRepository {
         kioskList = new ArrayList<>();
     }
 
+    public void insertKioskToKioskList() {
+        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM kiosk");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                Kiosk kiosk = new Kiosk();
+                kiosk.setID(resultSet.getInt("kioskID"));
+                kiosk.setName(resultSet.getString("kioskName"));
+                kiosk.setPrice(resultSet.getDouble("kioskPrice"));
+                kioskList.add(kiosk);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Kiosk> getKioskList(){
+        if(kioskList.isEmpty()){
+            insertKioskToKioskList();
+        }
         return kioskList;
+    }
+
+    public Kiosk getKioskByID(int ID) {
+        for (Kiosk kiosk : kioskList) {
+            if (kiosk.getID() == ID) {
+                return kiosk;
+            }
+        }
+        return null;
     }
 
     public void createKioskItem(Kiosk newKioskItem) {
@@ -71,9 +99,10 @@ public class KioskRepository {
             // Database operation for updating
             try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
                 PreparedStatement ps = con.prepareStatement(
-                        "UPDATE kiosk SET kioskName = ?, kioskPrice = ?");
+                        "UPDATE kiosk SET kioskName = ?, kioskPrice = ? WHERE kioskID = ?");
                 ps.setString(1, kioskToUpdate.getName());
                 ps.setDouble(2, kioskToUpdate.getPrice());
+                ps.setInt(3,id);
                 ps.executeUpdate();
 
             } catch (SQLException e) {

@@ -50,7 +50,7 @@
 
 <h1>Movie Details</h1>
 
-<div id="movie-details">
+<div id="kiosk-details">
     <!-- Movie details will be displayed here -->
 </div>
 
@@ -90,7 +90,7 @@
     fetch(`/api/cinema/movies/${movieId}`)
         .then(response => response.json())
         .then(movie => {
-            const movieDetailsDiv = document.getElementById('movie-details');
+            const movieDetailsDiv = document.getElementById('kiosk-details');
             movieDetailsDiv.innerHTML = `
             <h2>${movie.name}</h2>
             <p><strong>Genre:</strong> ${movie.genre}</p>

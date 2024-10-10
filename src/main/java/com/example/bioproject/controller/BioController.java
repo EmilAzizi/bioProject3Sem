@@ -53,7 +53,7 @@ public class BioController {
     }
 
     @PutMapping("/api/cinema/snacks/{ID}")
-    public Kiosk updateKioskItem(@PathVariable int ID, Kiosk kioskToBeUpdated){
+    public Kiosk updateKioskItem(@PathVariable int ID, @RequestBody Kiosk kioskToBeUpdated){
         kioskService.updateKiosk(ID, kioskToBeUpdated);
         return kioskToBeUpdated;
     }
@@ -62,6 +62,12 @@ public class BioController {
     public Movie getMovieByID(@PathVariable int ID){
         Movie movieFound = bioService.findMovieByID(ID);
         return movieFound;
+    }
+
+    @GetMapping("/api/cinema/snacks/{ID}")
+    public Kiosk getKioskByID(@PathVariable int ID){
+        Kiosk kioskFound = kioskService.getKioskByID(ID);
+        return kioskFound;
     }
 
     @DeleteMapping("/api/cinema/movies/{ID}")
@@ -90,7 +96,4 @@ public class BioController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to reserve tickets: " + e.getMessage());
         }
     }
-
-
-
 }

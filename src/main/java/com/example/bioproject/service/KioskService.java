@@ -19,6 +19,11 @@ public class KioskService {
         return kioskList;
     }
 
+    public Kiosk getKioskByID(int ID){
+        Kiosk kioskFound = kioskRepository.getKioskByID(ID);
+        return kioskFound;
+    }
+
     public void createKioskItem(Kiosk newKioskItem){
         kioskRepository.createKioskItem(newKioskItem);
     }
