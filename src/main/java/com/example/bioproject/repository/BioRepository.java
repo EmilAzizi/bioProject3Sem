@@ -12,7 +12,7 @@ public class BioRepository {
     private List<Movie> movieList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "Emperiusvalor1!";
+    private String JDBC_PASSWORD = "27SlimHuskies";
 
     // public List<Movie> getMovieList() {
     // return movieList;
@@ -212,8 +212,6 @@ public class BioRepository {
             throw new RuntimeException(e);
         }
 
-
-
         return newRemainingSeats;
     }
 
@@ -234,10 +232,11 @@ public class BioRepository {
     public void reserveTickets(int ID, int wishedReservedSeats) throws Exception {
         Movie movieToChangeSeats = null;
         int newSeatsAmount = 0;
-        for(Movie movie : movieList){
-            if(movie.getID() == ID){
-                newSeatsAmount = movie.getRemainingSeats() - wishedReservedSeats; // Change from getMaxSeats to getRemainingSeats
-                if(newSeatsAmount < 0){
+        for (Movie movie : movieList) {
+            if (movie.getID() == ID) {
+                newSeatsAmount = movie.getRemainingSeats() - wishedReservedSeats; // Change from getMaxSeats to
+                                                                                  // getRemainingSeats
+                if (newSeatsAmount < 0) {
                     throw new Exception("You can't book more seats than the remaining.");
                 } else {
                     movie.setRemainingSeats(newSeatsAmount);
@@ -247,7 +246,7 @@ public class BioRepository {
             }
         }
 
-        if(movieToChangeSeats != null) {
+        if (movieToChangeSeats != null) {
             // Update the database
             try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
                 String sql = "UPDATE movie SET movieRemainingSeats = ? WHERE movieID = ?";
@@ -262,6 +261,5 @@ public class BioRepository {
             throw new Exception("Movie not found.");
         }
     }
-
 
 }
