@@ -1,11 +1,12 @@
 package com.example.bioproject.controller;
 
 import java.util.*;
+
+import com.example.bioproject.model.Kiosk;
 import com.example.bioproject.model.Movie;
+import com.example.bioproject.service.KioskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.bioproject.service.BioService;
@@ -14,10 +15,12 @@ import com.example.bioproject.service.BioService;
 public class BioController {
     
     private final BioService bioService;
+    private final KioskService kioskService;
 
     // Constructor-based injection
-    public BioController(BioService bioService) {
+    public BioController(BioService bioService, KioskService kioskService) {
         this.bioService = bioService;
+        this.kioskService = kioskService;
     }
 
     @GetMapping("/api/cinema/movies")
@@ -30,6 +33,29 @@ public class BioController {
     public Movie createMovie(@RequestBody Movie newMovie){
         bioService.createMovie(newMovie);
         return newMovie;
+    }
+
+    @GetMapping("/api/cinema/snacks")
+    public List<Kiosk> parseKioskToJson(){
+        List<Kiosk> kioskList = kioskService.getKioskList();
+        return kioskList;
+    }
+
+    @PostMapping("/api/cinema/snacks")
+    public Kiosk createSnack(@RequestBody Kiosk newKioskItem){
+        kioskService.createKioskItem(newKioskItem);
+        return newKioskItem;
+    }
+
+    @DeleteMapping("/api/cinema/snacks/{ID}")
+    public void deleteKioskItem(@PathVariable int ID){
+        kioskService.deleteKioskItem(ID);
+    }
+
+    @PutMapping("/api/cinema/snacks/{ID}")
+    public Kiosk updateKioskItem(@PathVariable int ID, Kiosk kioskToBeUpdated){
+        kioskService.updateKiosk(ID, kioskToBeUpdated);
+        return kioskToBeUpdated;
     }
 
     @GetMapping("/api/cinema/movies/{ID}")
@@ -46,7 +72,6 @@ public class BioController {
     @PutMapping("/api/cinema/movies/{ID}")
     public Movie updateMovie(@PathVariable int ID, @RequestBody Movie movieToBeUpdated){
         bioService.updateMovie(ID, movieToBeUpdated);
-        System.out.println(movieToBeUpdated.toString());
         return movieToBeUpdated;
     }
 
