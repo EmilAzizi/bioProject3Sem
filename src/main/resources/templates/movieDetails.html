@@ -19,9 +19,13 @@
 
     <button id="deleteMovieBtn">Delete Movie</button>
     <button id="editMovieBtn">Edit Movie</button>
+    <button id="cancel">Cancel</button>
 
 
     <script>
+        document.getElementById('cancel').addEventListener('click', function () {
+            window.location.href = `/homepage`;
+        });
         // Get the movie ID from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = window.location.pathname.split('/').pop(); // Movie ID passed in the query string
