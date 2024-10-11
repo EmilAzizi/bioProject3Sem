@@ -13,9 +13,9 @@ public class KioskRepository {
     private List<Kiosk> kioskList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "Emperiusvalor1!";
+    private String JDBC_PASSWORD = "27SlimHuskies";
 
-    public KioskRepository(){
+    public KioskRepository() {
         kioskList = new ArrayList<>();
     }
 
@@ -35,8 +35,8 @@ public class KioskRepository {
         }
     }
 
-    public List<Kiosk> getKioskList(){
-        if(kioskList.isEmpty()){
+    public List<Kiosk> getKioskList() {
+        if (kioskList.isEmpty()) {
             insertKioskToKioskList();
         }
         return kioskList;
@@ -102,7 +102,7 @@ public class KioskRepository {
                         "UPDATE kiosk SET kioskName = ?, kioskPrice = ? WHERE kioskID = ?");
                 ps.setString(1, kioskToUpdate.getName());
                 ps.setDouble(2, kioskToUpdate.getPrice());
-                ps.setInt(3,id);
+                ps.setInt(3, id);
                 ps.executeUpdate();
 
             } catch (SQLException e) {
