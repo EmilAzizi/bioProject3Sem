@@ -1,7 +1,5 @@
 package com.example.bioproject.service;
 
-import com.example.bioproject.repository.DBRepository;
-import com.example.bioproject.repository.KioskRepository;
 import org.springframework.stereotype.Service;
 import com.example.bioproject.model.Movie;
 import com.example.bioproject.repository.BioRepository;
@@ -11,7 +9,6 @@ import java.util.*;
 public class BioService {
     private final BioRepository bioRepository;
 
-    // Constructor-based injection
     public BioService(BioRepository bioRepository) {
         this.bioRepository = bioRepository;
     }
@@ -38,7 +35,6 @@ public class BioService {
     }
 
     public void reserveTickets(int movieID, int wishedAmountOfSeats) {
-        //bioRepository.reserveTicket(amountReserved, movieTheaterID);
         try {
             bioRepository.reserveTickets(movieID, wishedAmountOfSeats);
         } catch (Exception e) {

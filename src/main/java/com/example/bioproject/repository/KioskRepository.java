@@ -1,7 +1,6 @@
 package com.example.bioproject.repository;
 
 import com.example.bioproject.model.Kiosk;
-import com.example.bioproject.model.Movie;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -13,7 +12,7 @@ public class KioskRepository {
     private List<Kiosk> kioskList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "27SlimHuskies";
+    private String JDBC_PASSWORD = "Emperiusvalor1!";
 
     public KioskRepository() {
         kioskList = new ArrayList<>();
@@ -53,27 +52,21 @@ public class KioskRepository {
 
     public void createKioskItem(Kiosk newKioskItem) {
         try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
-            // Prepare the SQL statement with RETURN_GENERATED_KEYS
             String sql = "INSERT INTO kiosk (kioskName, kioskPrice)"
                     +
                     "VALUES(?,?)";
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            // Set the values for the prepared statement
             ps.setString(1, newKioskItem.getName());
             ps.setDouble(2, newKioskItem.getPrice());
 
-            // Execute the update
             ps.executeUpdate();
 
-            // Retrieve the generated keys (movieID)
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int kioskID = generatedKeys.getInt(1); // Get the generated movieID
-                newKioskItem.setID(kioskID); // Set it on the newMovie object
+                int kioskID = generatedKeys.getInt(1);
             }
 
-            // Add the movie to the movie list
             kioskList.add(newKioskItem);
 
         } catch (SQLException e) {
@@ -96,7 +89,6 @@ public class KioskRepository {
         }
 
         if (kioskToUpdate != null) {
-            // Database operation for updating
             try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
                 PreparedStatement ps = con.prepareStatement(
                         "UPDATE kiosk SET kioskName = ?, kioskPrice = ? WHERE kioskID = ?");

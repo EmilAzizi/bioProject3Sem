@@ -17,7 +17,6 @@ public class BioController {
     private final BioService bioService;
     private final KioskService kioskService;
 
-    // Constructor-based injection
     public BioController(BioService bioService, KioskService kioskService) {
         this.bioService = bioService;
         this.kioskService = kioskService;
@@ -84,13 +83,11 @@ public class BioController {
     @PostMapping("/api/cinema/movies/{ID}/reserve")
     public ResponseEntity<?> reserveTickets(@PathVariable int ID, @RequestBody Map<String, Object> payload) {
         String email = (String) payload.get("email");
-
-        // Get the numberOfSeats as a String and then convert it to Integer
         String numberOfSeatsString = (String) payload.get("numberOfSeats");
-        int numberOfSeats = Integer.parseInt(numberOfSeatsString); // Convert to Integer
+        int numberOfSeats = Integer.parseInt(numberOfSeatsString);
 
         try {
-            bioService.reserveTickets(ID, numberOfSeats); // Call your existing method
+            bioService.reserveTickets(ID, numberOfSeats);
             return ResponseEntity.ok(Collections.singletonMap("reservedSeats", numberOfSeats));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to reserve tickets: " + e.getMessage());

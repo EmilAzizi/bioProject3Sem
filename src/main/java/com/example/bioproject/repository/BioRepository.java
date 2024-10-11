@@ -12,15 +12,7 @@ public class BioRepository {
     private List<Movie> movieList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "27SlimHuskies";
-
-    // public List<Movie> getMovieList() {
-    // return movieList;
-    // }
-    //
-    // public void createMovie(Movie newMovie) {
-    // movieList.add(newMovie);
-    // }
+    private String JDBC_PASSWORD = "Emperiusvalor1!";
 
     public BioRepository() {
         movieList = new ArrayList<>();
@@ -60,33 +52,28 @@ public class BioRepository {
 
     public void createMovie(Movie newMovie) {
         try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
-            // Prepare the SQL statement with RETURN_GENERATED_KEYS
             String sql = "INSERT INTO movie (movieName, movieGenre, movieActors, movieDescription, movieAgeRes, movieStartDate, movieEndDate, movieLength)"
                     +
                     "VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            // Set the values for the prepared statement
             ps.setString(1, newMovie.getName());
             ps.setString(2, newMovie.getGenre());
             ps.setString(3, newMovie.getActorFullName());
             ps.setString(4, newMovie.getDescription());
-            ps.setInt(5, newMovie.getAgeRequirement()); // Ensure BOOLEAN value here
+            ps.setInt(5, newMovie.getAgeRequirement());
             ps.setString(6, newMovie.getStartDate());
             ps.setString(7, newMovie.getEndDate());
             ps.setInt(8, newMovie.getDuration());
 
-            // Execute the update
             ps.executeUpdate();
 
-            // Retrieve the generated keys (movieID)
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int movieID = generatedKeys.getInt(1); // Get the generated movieID
-                newMovie.setID(movieID); // Set it on the newMovie object
+                int movieID = generatedKeys.getInt(1);
+                newMovie.setID(movieID);
             }
 
-            // Add the movie to the movie list
             movieList.add(newMovie);
 
         } catch (SQLException e) {
@@ -149,7 +136,6 @@ public class BioRepository {
         }
 
         if (movieToUpdate != null) {
-            // Database operation for updating
             try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
                 PreparedStatement ps = con.prepareStatement(
                         "UPDATE movie SET movieName = ?, movieGenre = ?, movieActors = ?, movieDescription = ?, " +
@@ -170,63 +156,6 @@ public class BioRepository {
             }
         }
 
-    }
-
-    public int getMaxSeats(int movieID) {
-
-        int maxSeats = 0;
-
-        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
-            String sql = """
-                            SELECT movieMaxSeats FROM movie WHERE movieID = ?
-                    """;
-
-            PreparedStatement ps = con.prepareStatement(sql);
-
-            ps.setInt(1, movieID);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    maxSeats = rs.getInt("movieMaxSeats");
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return maxSeats;
-    }
-
-    public int reserveTicket(int seatsReserved, int movieID) {
-        int maxSeats = getMaxSeats(movieID);
-        int newRemainingSeats = maxSeats - seatsReserved;
-
-        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_PASSWORD, JDBC_USERNAME)) {
-            String sql = """
-                            UPDATE movieRemainingSeats = ? FROM movie WHERE movieID = ?
-                    """;
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, newRemainingSeats);
-            ps.setInt(2, movieID);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return newRemainingSeats;
-    }
-
-    public void reserveTicket2(int seatsReserved) {
-        try (Connection con = DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
-
-            String sql = """
-                            UPDATE movie SET movieRemainingSeats = ? WHERE movieTheaterID = ?
-                    """;
-
-            PreparedStatement ps = con.prepareStatement(sql);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void reserveTickets(int ID, int wishedReservedSeats) throws Exception {

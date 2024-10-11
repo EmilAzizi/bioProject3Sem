@@ -33,8 +33,6 @@ public class Movie {
         this.theaterID = theaterID;
     }
 
-    // to do: generator til kunden.
-
     public int getMaxSeats() {
         return maxSeats;
     }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class HomeController {
-    BioService bioService;
 
     @GetMapping("/homepage")
     public String home() {
@@ -39,12 +38,6 @@ public class HomeController {
     @GetMapping("/user/reserveTicket")
     public String reserveTicket() {
         return "userHomePage";
-    }
-
-    @PostMapping("/user/reserveTicket/{userEmail}")
-    public String postTicket() {
-        // bioService.reserveTickets();
-        return "";
     }
 
     @GetMapping("/userHomepage")

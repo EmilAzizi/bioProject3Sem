@@ -11,7 +11,6 @@
 <body>
     <h1>Create a New Movie</h1>
 
-    <!-- Movie Form -->
     <form id="movie-form">
         <label for="name">Movie Name:</label>
         <input type="text" id="name" name="name" required><br><br>
@@ -25,16 +24,13 @@
         <label for="ageRequirement">Age requirememt:</label>
         <input type="number" id="ageRequirement" name="ageRequirement" required><br><br>
 
-        <!-- Submit Button -->
         <button type="submit">Create Movie</button>
     </form>
 
     <script>
-        // JavaScript to handle form submission
         document.getElementById('movie-form').addEventListener('submit', function (e) {
-            e.preventDefault();  // Prevent traditional form submission
+            e.preventDefault();
 
-            // Create movie object from the form inputs
             const movie = {
                 name: document.getElementById('name').value,
                 genre: document.getElementById('genre').value,
@@ -42,7 +38,6 @@
                 ageRequirement: document.getElementById('ageRequirement').value
             };
 
-            // Send the movie object to the backend using a POST request
             fetch('/api/cinema/movies', {
                 method: 'POST',
                 headers: {
@@ -53,7 +48,6 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Movie created:', data);
-                    // Redirect to homepage after movie creation
                     window.location.href = '/homepage';
                 })
                 .catch(error => console.error('Error creating movie:', error));
