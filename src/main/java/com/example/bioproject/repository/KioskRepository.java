@@ -12,7 +12,7 @@ public class KioskRepository {
     private List<Kiosk> kioskList;
     private String JDBC_USERNAME = "root";
     private String JDBC_DATABASE_URL = "jdbc:mysql://localhost:3306/kea";
-    private String JDBC_PASSWORD = "Emperiusvalor1!";
+    private String JDBC_PASSWORD = "27SlimHuskies";
 
     public KioskRepository() {
         kioskList = new ArrayList<>();
