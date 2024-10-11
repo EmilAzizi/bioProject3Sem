@@ -21,11 +21,9 @@
 <h1>Now Showing</h1>
 
 <ul id="movies-list">
-    <!-- Movies will be displayed here -->
 </ul>
 
 <script>
-    // Fetch movies from the Java backend API
     fetch('/api/cinema/movies')
         .then(response => response.json())
         .then(movies => {
@@ -49,7 +47,6 @@
         })
         .catch(error => console.error('Error fetching movies:', error));
 
-    // Event listener for the 'Create Movie' button
 </script>
 
 </body>

@@ -4,10 +4,8 @@
     box-sizing: border-box;
 }
 
-/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400&display=swap');
 
-/* Body styling for en luksuriøs biograf-oplevelse */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #2a2a2a;
@@ -21,13 +19,11 @@ body {
     overflow-x: hidden;
 }
 
-/* Header styling */
 header {
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Hovedoverskrift styling */
 h1 {
     font-family: 'Cinzel', serif;
     font-size: 3em;
@@ -37,7 +33,6 @@ h1 {
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
 }
 
-/* Movies list styling */
 #movies-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -77,7 +72,6 @@ h1 {
     color: #bbbbbb;
 }
 
-/* Styles for the Reserve button */
 #reserve-toggle {
     margin-top: 20px;
     padding: 15px 30px;
@@ -93,7 +87,6 @@ h1 {
     background-color: #d4b300;
 }
 
-/* Styles for the Reservation Form */
 #reserve-section {
     margin-top: 20px;
     padding: 20px;
@@ -144,7 +137,7 @@ h1 {
 .navbar ul {
     list-style-type: none;
     display: flex;
-    justify-content: center; /* Center the navigation links */
+    justify-content: center;
     flex-grow: 0;
     padding: 0;
     margin: 0;
@@ -165,7 +158,6 @@ h1 {
     color: black;
     background-color: #ffd700;
     border-radius: 30px;
-    /* transition: 0.3s; */
     transition: background-color 0.3s ease, transform 0.2s ease
 }
  

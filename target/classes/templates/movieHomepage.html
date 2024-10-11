@@ -23,11 +23,9 @@
     <button id="createMovieBtn">Create Movie</button>
 
     <ul id="movies-list">
-        <!-- Movies will be displayed here -->
     </ul>
 
     <script>
-        // Fetch movies from the Java backend API
         fetch('/api/cinema/movies')
             .then(response => response.json())
             .then(movies => {
@@ -49,7 +47,6 @@
             })
             .catch(error => console.error('Error fetching movies:', error));
 
-        // Event listener for the 'Create Movie' button
         document.getElementById('createMovieBtn').addEventListener('click', function () {
             window.location.href = 'movieForm';
         });
