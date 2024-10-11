@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2a2a2a;
+    color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    height: 100vh;
+    justify-content: flex-start;
+    overflow-x: hidden;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3em;
+    color: #ffd700;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+#movies-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.movie-item {
+    background: linear-gradient(145deg, #343434, #2a2a2a);
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid #ffd700;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9), -5px -5px 15px rgba(50, 50, 50, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.movie-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.9), -10px -10px 30px rgba(50, 50, 50, 0.5);
+}
+
+.movie-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.movie-genre,
+.movie-duration {
+    margin-bottom: 10px;
+    color: #bbbbbb;
+}
+
+#reserve-toggle {
+    margin-top: 20px;
+    padding: 15px 30px;
+    background-color: #ffd700;
+    color: #2a2a2a;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reserve-toggle:hover {
+    background-color: #d4b300;
+}
+
+#reserve-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    max-width: 500px;
+}
+
+#reserve-form input,
+#reserve-form select {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#reserve-form button {
+    padding: 10px 20px;
+    background-color: #ffd700;
+    color: #2a2a2a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#reserve-form button:hover {
+    background-color: #d4b300;
+}
+
+@media (max-width: 768px) {
+    #movies-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.navbar {
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+ 
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-grow: 0;
+    padding: 0;
+    margin: 0;
+}
+ 
+.navbar ul li {
+    margin: 10px;
+}
+ 
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    text-align: center;
+}
+ 
+.navbar a:hover {
+    color: black;
+    background-color: #ffd700;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease
+}
+ 
+.navbar h2 a {
+    color: #ffd700;
+    text-decoration: none;
+    justify-self: left;
+    padding: 15px;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+ 
+.navbar h2 a:hover {
+    color: #ffd700;
+    background-color: transparent;
+}
+ 

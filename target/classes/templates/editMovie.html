@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Movie</title>
+    <link rel="stylesheet" href="/editMovieStyles.css">
+</head>
+
+<body>
+
+    <nav class= "navbar">
+        <h2><a href="/homepage">DinBio.dk</a></h2>
+        <ul>
+            <li><a href="/homepage">Home</a></li>
+            <li><a href="/kioskHomepage">Kiosk</a></li>
+            <li><a href="/userHomepage">User</a></li>
+        </ul>
+    </nav>
+
+    <h1>Edit Movie</h1>
+
+    <form id="edit-movie-form">
+        <label for="name">Movie Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" name="genre" required><br><br>
+
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" id="duration" name="duration" required><br><br>
+
+        <label for="ageRequirement">Age requirememt:</label>
+        <input type="number" id="ageRequirement" name="ageRequirement" required><br><br>
+
+        <label for="startDate">Start date:</label>
+        <input type="text" id="startDate" name="startDate" required><br><br>
+
+        <label for="endDate">End date:</label>
+        <input type="text" id="endDate" name="endDate" required><br><br>
+
+        <button type="submit">Confirm</button>
+    </form>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = window.location.pathname.split('/').pop();
+
+        fetch(`/api/cinema/movies/${movieId}`)
+            .then(response => response.json())
+            .then(movie => {
+                document.getElementById('name').value = movie.name;
+                document.getElementById('genre').value = movie.genre;
+                document.getElementById('duration').value = movie.duration;
+                document.getElementById('ageRequirement').value = movie.ageRequirement;
+                document.getElementById('startDate').value = movie.startDate;
+                document.getElementById('endDate').value = movie.endDate;
+
+            })
+            .catch(error => console.error('Error fetching movie details:', error));
+
+        document.getElementById('edit-movie-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const updatedMovie = {
+                name: document.getElementById('name').value,
+                genre: document.getElementById('genre').value,
+                duration: document.getElementById('duration').value,
+                ageRequirement: document.getElementById('ageRequirement').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value
+            };
+
+            fetch(`/api/cinema/movies/${movieId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedMovie)
+            })
+                .then(response => response.json())
+                .then(() => window.location.href = '/homepage')
+                .catch(error => console.error('Error updating movie:', error));
+        });
+    </script>
+
+</body>
+
+</html>

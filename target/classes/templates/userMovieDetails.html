@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="/movieDetailsStyles.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            padding: 20px;
+            width: 400px;
+            margin: auto;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #reserve-form input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #333;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        #reserve-form input::placeholder {
+            color: #bbb;
+        }
+
+        #reserve-form button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #ffd700;
+            color: #2a2a2a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #reserve-form button:hover {
+            transform: translateY(-4px);
+        }
+
+        #reserve-message {
+            margin-top: 10px;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class= "navbar">
+        <h2><a href="/homepage">DinBio.dk</a></h2>
+        <ul>
+            <li><a href="/homepage">Home</a></li>
+            <li><a href="/kioskHomepage">Kiosk</a></li>
+            <li><a href="/userHomepage">User</a></li>
+        </ul>
+    </nav>
+
+<h1>Movie Details</h1>
+
+<div id="kiosk-details">
+</div>
+
+<button id="editMovieBtn">Reserve</button>
+<button id="cancel">Cancel</button>
+
+<div id="reservationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Reserve Tickets</h2>
+        <form id="reserve-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="phone">Phone Number (Optional):</label>
+            <input type="tel" id="phone" name="phone"><br><br>
+
+            <label for="number-of-seats">Number of Seats:</label>
+            <input type="number" id="number-of-seats" name="numberOfSeats" min="1" required><br><br>
+
+            <button type="submit">Reserve Tickets</button>
+        </form>
+        <p id="reserve-message"></p>
+    </div>
+</div>
+
+<script>
+
+    document.getElementById('cancel').addEventListener('click', function () {
+        window.location.href = `/userHomepage`;
+    });
+    const movieId = window.location.pathname.split('/').pop();
+    fetch(`/api/cinema/movies/${movieId}`)
+        .then(response => response.json())
+        .then(movie => {
+            const movieDetailsDiv = document.getElementById('kiosk-details');
+            movieDetailsDiv.innerHTML = `
+            <h2>${movie.name}</h2>
+            <p><strong>Genre:</strong> ${movie.genre}</p>
+            <p><strong>Duration:</strong> ${movie.duration} mins</p>
+            <p><strong>Description:</strong> ${movie.description || 'No description available.'}</p>
+            <p><strong>Age requirement:</strong> ${movie.ageRequirement}</p>
+            <p><strong>Max amount of seats:</strong> ${movie.maxSeats}</p>
+            <p><strong>Remaining amount of seats:</strong> ${movie.remainingSeats}</p>
+        `;
+        })
+        .catch(error => console.error('Error fetching movie details:', error));
+
+    const reservationModal = document.getElementById('reservationModal');
+    const editMovieBtn = document.getElementById('editMovieBtn');
+    const closeBtn = document.getElementsByClassName('close')[0];
+
+    editMovieBtn.onclick = function () {
+        reservationModal.style.display = 'flex';
+    }
+
+    closeBtn.onclick = function () {
+        reservationModal.style.display = 'none';
+    }
+
+    window.onclick = function (event) {
+        if (event.target === reservationModal) {
+            reservationModal.style.display = 'none';
+        }
+    }
+
+    const reserveForm = document.getElementById('reserve-form');
+    reserveForm.onsubmit = function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const numberOfSeats = document.getElementById('number-of-seats').value;
+
+        fetch(`/api/cinema/movies/${movieId}/reserve`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, numberOfSeats }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to reserve tickets.');
+                }
+            })
+            .then(data => {
+                document.getElementById('reserve-message').innerText = `Successfully reserved ${data.reservedSeats} seats!`;
+                reservationModal.style.display = 'none';
+
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('reserve-message').innerText = 'Error reserving tickets. Please try again.';
+            });
+    }
+
+</script>
+
+</body>
+
+</html>
