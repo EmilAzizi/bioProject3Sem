@@ -45,7 +45,7 @@
             const movieDetailsDiv = document.getElementById('kiosk-details');
             movieDetailsDiv.innerHTML = `
             <h2>${kiosk.name}</h2>
-            <p><strong>Price:</strong> ${kiosk.price}</p>
+            <p><strong>Price:</strong> ${kiosk.price} kr.</p>
         `;
         })
         .catch(error => console.error('Error fetching snack details:', error));

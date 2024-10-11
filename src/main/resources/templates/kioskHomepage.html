@@ -18,7 +18,7 @@
     </nav>
 
 <h1>Now Selling</h1>
-<button id="createKioskBtn">Create Kiosk</button>
+<button id="createKioskBtn">Create Item</button>
 
 <ul id="kiosk-list">
     <!-- Movies will be displayed here -->
@@ -36,7 +36,7 @@
                 kioskItem.innerHTML = `
                         <a href="kioskDetails/view/${kiosk.id}" class="kiosk-link">
                         <div class="kiosk-name">${kiosk.name}</div>
-                        <div class="kiosk-price">${kiosk.price}</div>
+                        <div class="kiosk-price">${kiosk.price} kr.</div>
                         </a>
                         `;
 
