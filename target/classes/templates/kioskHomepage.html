@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Movies</title>
+    <link rel="stylesheet" href="homePage.css">
+</head>
+
+<body>
+
+<h1>Now Selling</h1>
+<button id="createKioskBtn">Create Kiosk</button>
+
+<ul id="kiosk-list">
+    <!-- Movies will be displayed here -->
+</ul>
+
+<script>
+    // Fetch movies from the Java backend API
+    fetch('/api/cinema/snacks')
+        .then(response => response.json())
+        .then(kiosk => {
+            const kioskList = document.getElementById('kiosk-list');
+            kiosk.forEach(kiosk => {
+                const kioskItem = document.createElement('li');
+
+                kioskItem.innerHTML = `
+                        <a href="kioskDetails/${kiosk.id}" class="kiosk-link">
+                        <div class="kiosk-name">${kiosk.name}</div>
+                        <div class="kiosk-price">${kiosk.price}</div>
+                        </a>
+                        `;
+
+                kioskList.appendChild(kioskItem);
+            });
+        })
+        .catch(error => console.error('Error fetching movies:', error));
+
+    // Event listener for the 'Create Movie' button
+    document.getElementById('createKioskBtn').addEventListener('click', function () {
+        window.location.href = 'kioskForm';
+    });
+</script>
+
+</body>
+
+</html>

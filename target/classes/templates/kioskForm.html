@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Item</title>
+    <link rel="stylesheet" href="movieForm.css">
+</head>
+
+<body>
+<h1>Create a New Item</h1>
+
+<!-- Kiosk Form -->
+<form id="kiosk-form">
+    <label for="kioskName">Item Name:</label>
+    <input type="text" id="kioskName" name="kioskName" required><br><br>
+
+    <label for="kioskPrice">Price:</label>
+    <input type="number" step="0.01" id="kioskPrice" name="kioskPrice" required><br><br>
+
+    <!-- Submit Button -->
+    <button type="submit">Create Item</button>
+</form>
+
+<script>
+    // JavaScript to handle form submission
+    document.getElementById('kiosk-form').addEventListener('submit', function (e) {
+        e.preventDefault();  // Prevent traditional form submission
+
+        // Create kiosk object from the form inputs
+        const kiosk = {
+            name: document.getElementById('kioskName').value,
+            price: document.getElementById('kioskPrice').value
+        };
+
+        // Send the kiosk object to the backend using a POST request
+        fetch('/api/cinema/snacks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(kiosk)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to create item');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Item created:', data);
+                window.location.href = '/kioskHomepage'; // Redirect after successful creation
+            })
+            .catch(error => console.error('Error creating item:', error));
+    });
+</script>
+
+</body>
+
+</html>

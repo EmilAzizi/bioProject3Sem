@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Movie</title>
+    <link rel="stylesheet" href="editMovie.css">
+</head>
+
+<body>
+
+<h1>Edit Snack</h1>
+
+<form id="edit-kiosk-form">
+    <label for="name">Snack Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="price">price:</label>
+    <input type="text" id="price" name="price" required><br><br>
+
+    <!-- Confirm Button -->
+    <button type="submit">Confirm</button>
+</form>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const kioskID = window.location.pathname.split('/').pop();
+
+    fetch(`/api/cinema/snacks/${kioskID}`)
+        .then(response => response.json())
+        .then(kiosk => {
+            document.getElementById('name').value = kiosk.name;
+            document.getElementById('price').value = kiosk.price;
+        })
+        .catch(error => console.error('Error fetching movie details:', error));
+
+    document.getElementById('edit-kiosk-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const updatedKiosk = {
+            name: document.getElementById('name').value,
+            price: document.getElementById('price').value,
+        };
+
+        fetch(`/api/cinema/snacks/${kioskID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedKiosk)
+        })
+            .then(response => response.json())
+            .then(() => window.location.href = '/kioskHomepage')
+            .catch(error => console.error('Error updating movie:', error));
+    });
+</script>
+
+</body>
+
+</html>
