@@ -36,6 +36,7 @@
         });
         const urlParams = new URLSearchParams(window.location.search);
         const movieId = window.location.pathname.split('/').pop();
+
         fetch(`/api/cinema/movies/${movieId}`)
             .then(response => response.json())
             .then(movie => {
